@@ -1,20 +1,19 @@
 
 const HomePage = () => {
   return <div className="grid grid-cols-[25%_75%] gap-4" >
-    <ol className="mt-20 ml-14">
-      <p>Home</p>
-      <p>Cards</p>
-      <p>Transactions</p>
-      <p>Payments</p>
-      <p>Direct Debit</p>
-    </ol>
-    <div className="mt-10">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-between px-6 py-2 md:hidden">
+    <button>Home</button>
+    <button>Cards</button>
+    <button>Recipients</button>
+    <button>Payments</button>
+    </nav>
+    <div>
       {/* * Username avatar*/}
-      <div className="h-1/4 w-1/4 rounded-full flex justify-between items-center px-8 hover:bg-gray-50">
+      <a className="mt-8 h-16 w-28 ml-80 bg-gray-500  rounded-full flex justify-between items-center px-8 hover:bg-gray-500">
           <div className="bg-blue-500 h-12 w-12 rounded-full justify-end"></div>
-          <span className="text-black-700 font-semibold">Username</span>
-      </div>
-      <p className="flex">total balance</p>
+          {/* <span className="text-black-700 font-semibold">Username</span> */} 
+      </a>
+      <p className="mt-10 ml-5">total balance:</p>
 
     </div>
   </div>  

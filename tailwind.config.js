@@ -5,7 +5,7 @@ module.exports = {
     extend: {
       backgroundImage:{
         universe: "linear-gradient( 99.9deg, rgba(27,24,31,1) 21.2%, rgba(50,4,89,1) 84.8% )"
-      }
+      },
     },
   },
   plugins: [],

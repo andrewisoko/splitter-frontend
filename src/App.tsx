@@ -6,6 +6,7 @@ import HomePage from './components/assets/pages/HomePage';
 function App() {
   return (
     <div>
+      {/* <LoginPage/> */}
       <HomePage/>
     </div>
   );
