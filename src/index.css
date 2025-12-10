@@ -23,4 +23,7 @@ code {
    }
 }
 
+.btn-primary {
+  @apply rounded-full bg-purple-900 hover:bg-fuchsia-900 text-white font-semibold py-2;
+}
 
