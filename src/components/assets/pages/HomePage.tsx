@@ -15,7 +15,7 @@ const HomePage = () => {
           <div className="bg-blue-500 h-12 w-12 rounded-full justify-end"></div>
           {/* <span className="text-black-700 font-semibold">Username</span> */} 
       </a>
-      <div className="mt-10 ml-5">
+      <div className="mt-10 ml-3">
       <p>total balance:</p>
       <p className="font-bold text-[24px]">0.00 GBP</p> 
 
@@ -34,14 +34,24 @@ const HomePage = () => {
         </div>
 
         {/*accounts*/}
-        <div className=" mt-4  h-[200px] w-[250px] bg-gray-200 rounded 2x1 shadow-sm flex">
-          <div className="fixed mt-4 ml-24">
-            <p className="mt-6 font-semibold text-[20px]">0.00</p> 
-          </div>
-          <div className="flex justify-start items-end px-2 pb-4">
-            <div className="h-12 w-12 rounded-full bg-blue-500"></div>
-            <p className="ml-2 mb-3 font-semibold">CURRENCY</p>
-          </div>
+        <div className="mt-4 flex gap-4">
+          <div className="h-[200px] w-[230px] bg-gray-200 rounded-2xl shadow-sm flex flex-col flex-shrink-0 justify-between px-4 py-4">
+              <p className="font-semibold text-[20px] self-center">0.00</p>
+              <div className="flex items-end">
+                <div className="h-12 w-12 rounded-full bg-blue-500"></div>
+                <p className="ml-2 mb-1 font-semibold">CURRENCY</p>
+              </div>
+            </div>
+          <div className="flex-shrink-0 h-[200px] w-[230px] bg-gray-100 rounded-2xl shadow-sm flex flex-col justify-between px-4 py-4">
+              <p className=" text-[15 px] font-semibold self-start">+100 currencies available.</p>
+              <div className="flex items-center">
+                <button className="h-12 w-12 rounded-full bg-gray-300">
+                    <span className="text-2xl leading-none">+</span>
+                </button>
+                <p className="ml-2 mb-1 font-semibold">Add New</p>
+              </div>
+            </div>
+
         </div>
 
       </div>
