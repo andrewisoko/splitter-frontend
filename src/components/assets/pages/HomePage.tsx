@@ -1,62 +1,75 @@
-
 const HomePage = () => {
-  return <div className="grid grid-cols-[25%_75%] gap-4" >
-    <nav className="fixed bottom-2 left-0 right-0 bg-white border-t flex justify-between px-6 pt-8 pb-2 md:hidden">
-      <div className="mx-auto flex justify-between gap-6">
-        <button>Home</button>
-        <button>Cards</button>
-        <button>Recipients</button>
-        <button>Payments</button>
-      </div>
-    </nav>
-    <div>
-      {/* * Username avatar*/}
-      <a className="mt-5 h-16 w-28 ml-96 rounded-full flex justify-between items-center px-8 hover:bg-gray-100">
-          <div className="bg-blue-500 h-12 w-12 rounded-full justify-end"></div>
-          {/* <span className="text-black-700 font-semibold">Username</span> */} 
-      </a>
-      <div className="mt-10 ml-3">
-      <p>total balance:</p>
-      <p className="font-bold text-[24px]">0.00 GBP</p> 
+  return (
+    <div className="min-h-screen flex flex-col md:grid md:grid-cols-[25%_75%] gap-4">
+      {/* Mobile Navigation - Fixed bottom */}
+      <nav className="md:hidden fixed bottom-2 left-0 right-0 bg-white border-t flex justify-between px-6 pt-8 pb-2 z-50">
+        <div className="mx-auto flex justify-between gap-6">
+          <button>Home</button>
+          <button>Cards</button>
+          <button>Recipients</button>
+          <button>Payments</button>
+        </div>
+      </nav>
 
-      {/*transactions money  */}
-
-        <div className="mt-4 flex gap-4 flex-nowrap">
-          <button className="px-10 btn-primary">
-            Deposit 
-          </button>
-          <button className="px-10 btn-primary">
-            Withdraw
-          </button>
-          <button className="px-10 btn-primary">
-            Transfer
-          </button>
+      {/* Main Content */}
+      <main className="flex-1 md:col-start-2 p-4 md:p-6 pb-20 md:pb-6">
+        {/* Username avatar - Responsive positioning */}
+        <div className="flex justify-end mb-6 md:mb-10">
+          <a className="h-12 w-12 md:h-16 md:w-16 rounded-full flex items-center justify-center hover:bg-gray-100">
+            <div className="bg-blue-500 h-8 w-8 md:h-12 md:w-12 rounded-full"></div>
+          </a>
         </div>
 
-        {/*accounts*/}
-        <div className="mt-4 flex gap-4">
-          <div className="h-[200px] w-[230px] bg-gray-200 rounded-2xl shadow-sm flex flex-col flex-shrink-0 justify-between px-4 py-4">
-              <p className="font-semibold text-[20px] self-center">0.00</p>
-              <div className="flex items-end">
-                <div className="h-12 w-12 rounded-full bg-blue-500"></div>
-                <p className="ml-2 mb-1 font-semibold">CURRENCY</p>
-              </div>
-            </div>
-          <div className="flex-shrink-0 h-[200px] w-[230px] bg-gray-100 rounded-2xl shadow-sm flex flex-col justify-between px-4 py-4">
-              <p className=" text-[15 px] font-semibold self-start">+100 currencies available.</p>
+        {/* Balance Section */}
+        <div className="mb-8">
+          <p className="text-gray-600 mb-1">total balance:</p>
+          <p className="font-bold text-2xl md:text-3xl">0.00 GBP</p>
+
+          {/* Transaction Buttons - Stack on mobile, row on larger */}
+          <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <button className="btn-primary w-full sm:w-auto">
+              Deposit
+            </button>
+            <button className="btn-primary w-full sm:w-auto">
+              Withdraw
+            </button>
+            <button className="btn-primary w-full sm:w-auto">
+              Transfer
+            </button>
+          </div>
+        </div>
+
+        {/* Accounts Section */}
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Accounts</h2>
+          
+          <div className="flex flex-col sm:flex-row gap-4">
+            {/* Currency Account Card */}
+            <div className="flex-1 min-w-0 bg-gray-100 rounded-2xl shadow-sm p-4 md:p-6 flex flex-col justify-between h-[180px] md:h-[200px]">
+              <p className="font-semibold text-xl md:text-2xl text-center">0.00</p>
               <div className="flex items-center">
-                <button className="h-12 w-12 rounded-full bg-gray-300">
-                    <span className="text-2xl leading-none">+</span>
-                </button>
-                <p className="ml-2 mb-1 font-semibold">Add New</p>
+                <div className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-blue-500"></div>
+                <p className="ml-3 font-semibold">CURRENCY</p>
               </div>
             </div>
 
+            {/* Add New Account Card */}
+            <div className="flex-1 min-w-0 bg-gray-50 border-2 border-dashed border-gray-300 rounded-2xl p-4 md:p-6 flex flex-col justify-between h-[180px] md:h-[200px]">
+              <p className="text-sm md:text-base font-semibold text-gray-600">
+                +100 currencies available.
+              </p>
+              <div className="flex items-center">
+                <button className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition">
+                  <span className="text-xl md:text-2xl font-light">+</span>
+                </button>
+                <p className="ml-3 font-semibold">Add New</p>
+              </div>
+            </div>
+          </div>
         </div>
-
-      </div>
+      </main>
     </div>
-  </div>  
+  );
 };
 
 export default HomePage;
