@@ -9,7 +9,7 @@ const HomePage = () => {
         <button>Payments</button>
       </div>
     </nav>
-      <button className="hidden md:flex lg:hidden fixed top-10 left-4 z-10 h-12 w-12 items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"> {/* adding the rest when starting implementing react*/}
+      <button className="hidden md:flex lg:hidden fixed top-10 left-4 z-10 h-12 w-12 items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200">
         <svg
           className="h-6 w-6"
           stroke="currentColor"
@@ -22,7 +22,7 @@ const HomePage = () => {
         />
       </svg>
       </button>
-
+ 
       <aside className="hidden lg:block mt-20 p-6 border-r  border-gray-200">
         {/* Navigation Menu */}
         <div className="space-y-2 mb-8">
