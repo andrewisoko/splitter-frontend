@@ -1,4 +1,4 @@
-const BurgerButton = () => {
+const BurgerBtn = () => {
     return (
          <button className="hidden md:flex lg:hidden fixed top-10 left-4 z-10 h-12 w-12 items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200">
         <svg
@@ -16,4 +16,4 @@ const BurgerButton = () => {
     );
 };
 
-export default BurgerButton;
+export default BurgerBtn;
