@@ -9,6 +9,7 @@ import TransactionOptionsBtn from "../components/TransactionOptionsBtn";
 
 
 const HomePage = () => {
+
   return <div className="lg:grid lg:grid-cols-[25%_75%] gap-4" >
     <Nav/>
     <BurgerBtn/>
@@ -20,7 +21,6 @@ const HomePage = () => {
         <div className="mt-10 ml-3">
         <p>total balance:</p>
         <p className="font-bold text-[24px] lg:text-[36px]">0.00 GBP</p> 
-
         <TransactionOptionsBtn/>
     
           {/*accounts*/}
