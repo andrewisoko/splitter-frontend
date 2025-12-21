@@ -21,13 +21,13 @@ const openFor = (type:"deposit"|"withdraw"|"transfer") =>{
              />
             
             <div className="mt-4 lg:mt-10 flex flex-row gap-4">
-              <button onClick={()=>openFor("deposit")}className="btn-primary w-full md:w-auto">
+              <button onClick={()=>openFor("deposit")}className="btn-primary rounded-full w-full md:w-auto">
                 Deposit 
               </button>
-              <button onClick={()=>openFor("withdraw")} className="btn-primary w-full md:w-auto">
+              <button onClick={()=>openFor("withdraw")} className="btn-primary rounded-full w-full md:w-auto">
                 Withdraw
               </button>
-              <button onClick={()=>openFor("transfer")} className="btn-primary w-full md:w-auto">
+              <button onClick={()=>openFor("transfer")} className="btn-primary rounded-full w-full md:w-auto">
                 Transfer
               </button>
           </div>
