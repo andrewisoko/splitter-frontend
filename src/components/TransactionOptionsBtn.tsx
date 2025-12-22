@@ -2,7 +2,7 @@ import { useState } from "react";
 import TranOptModal from "./TranOptModal";
 
 
-const TransactionOptionsBtn = () => {
+export default function TransactionOptionsBtn (){
 
 
   const [openedModal,setOpenedModal] = useState(false);
@@ -36,4 +36,3 @@ const openFor = (type:"deposit"|"withdraw"|"transfer") =>{
     );
 };
 
-export default TransactionOptionsBtn;
