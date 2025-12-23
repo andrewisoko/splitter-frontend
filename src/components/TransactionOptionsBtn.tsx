@@ -6,9 +6,9 @@ export default function TransactionOptionsBtn (){
 
 
   const [openedModal,setOpenedModal] = useState(false);
-  const [action,setActions] = useState<"deposit"|"withdraw"|"transfer"|null>(null);
+  const [action,setActions] = useState<"deposit"|"contract"|"transfer"|null>(null);
 
-const openFor = (type:"deposit"|"withdraw"|"transfer") =>{
+const openFor = (type:"deposit"|"contract"|"transfer") =>{
     setOpenedModal(true)
     setActions(type)
   }
@@ -24,8 +24,8 @@ const openFor = (type:"deposit"|"withdraw"|"transfer") =>{
               <button onClick={()=>openFor("deposit")}className="btn-primary rounded-full w-full md:w-auto">
                 Deposit 
               </button>
-              <button onClick={()=>openFor("withdraw")} className="btn-primary rounded-full w-full md:w-auto">
-                Withdraw
+              <button onClick={()=>openFor("contract")} className="btn-primary rounded-full w-full md:w-auto">
+                Contract
               </button>
               <button onClick={()=>openFor("transfer")} className="btn-primary rounded-full w-full md:w-auto">
                 Transfer
