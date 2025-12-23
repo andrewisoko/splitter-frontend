@@ -32,7 +32,7 @@ export default function TranOptModal({ open,close,action }:TranOptModalProps) {
       return (
         <>
           <CurrencyModal open={currenyModal} close={()=>setCurrencyModal(false)}/>
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
 
             <div className="h-[550px] w-full max-w-md rounded-2xl bg-white p-6 shadow-lg">
         
