@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TranOptModal from "./TranOptModal";
+import DepositModal from "./DepositModal";
 
 
 export default function TransactionOptionsBtn (){
@@ -14,7 +14,7 @@ const openFor = (type:"deposit"|"contract"|"transfer") =>{
   }
     return (
             <>
-            <TranOptModal 
+            <DepositModal 
             open={openedModal}
              close={() => setOpenedModal(false)} 
              action={action}

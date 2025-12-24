@@ -1,8 +1,7 @@
 import { useState } from "react";
-import CurrencyModal from "../pages/CurrencyModal";
-import { 
-  FaArrowAltCircleLeft
-} from 'react-icons/fa';
+import CurrencyModal from "../CurrencyModal";
+import SwitchModal from "./SwitchModal";
+
 
 
 type TranOptModalProps = {
@@ -11,11 +10,13 @@ type TranOptModalProps = {
   action: "deposit" | "contract" | "transfer" | null;
 };
 
-export default function TranOptModal({ open,close,action }:TranOptModalProps) {
+export default function DepositModal({ open,close,action }:TranOptModalProps) {
 
       const [amount,setAmount] = useState<string>("");
-      const [currenyModal,setCurrencyModal] = useState(false)
-      const [step,setSteps] = useState<"amount"|"cards"|"payments">("amount")
+      const [currencyModal,setCurrencyModal] = useState(false);
+      const [switchModal,setSwitchModal] = useState(false);
+
+      const [step,setSteps] = useState<"amount"|"cards"|"payments">("amount");
 
       const handleAmountChange = (e:any) => {
       const value = e.target.value;
@@ -36,7 +37,10 @@ export default function TranOptModal({ open,close,action }:TranOptModalProps) {
       
       return (
         <>
-          <CurrencyModal open={currenyModal} close={()=>setCurrencyModal(false)}/>
+          <CurrencyModal open={currencyModal} close={()=>setCurrencyModal(false)}/>
+          <SwitchModal open={switchModal} close={()=>setSwitchModal(false)}/>
+          
+
 
           <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
             <div className="h-[550px] w-full max-w-md rounded-2xl bg-white p-6 shadow-lg">
@@ -113,7 +117,7 @@ export default function TranOptModal({ open,close,action }:TranOptModalProps) {
 
                   <div className="flex justify-between">
                    <p className="font-semibold">Select card</p>
-                   <button className="mr-4 text-blue-500 hover:text-blue-700">switch</button>
+                   <button onClick={()=> setSwitchModal(true)} className="mr-4 text-blue-500 hover:text-blue-700">switch</button>
                   </div>
                   <div className="bg-gray-200 flex items-center gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-10">
                     <span className="ml-5 font-medium">Main card •••• 1234</span>
