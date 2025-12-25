@@ -1,5 +1,5 @@
-import CreateAccountCard from "../components/CreateAccountCard";
 import AccountCard from "../components/AccountCard";
+import CreateAccountCard from "../components/CreateAccountCard";
 import Sidebar from "../components/SideBar";
 import Nav from "../components/Nav";
 import BurgerBtn from "../components/BurgerBtn";
@@ -25,7 +25,7 @@ const HomePage = () => {
     
           {/*accounts*/}
           <div className="mt-4 flex flex-row gap-4">
-          <CreateAccountCard/>
+          <AccountCard/>
            <AccountCard/>
           </div>
         </div>
