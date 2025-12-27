@@ -80,7 +80,7 @@ export default function SwitchModal({open,close}:OpCls){
                         <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400">
 
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <rect x="3" y="5" width="18" height="14" rx="2" ry="2" />
+                            <rect x="3" y="5" width="18" height="14" rx="2" ry="2"/>
                             <path d="M3 10h18" />
                             </svg>
                         </span>

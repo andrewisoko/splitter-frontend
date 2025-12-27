@@ -1,0 +1,143 @@
+import React from "react";
+
+type AccountType = {
+  id: string;
+  name: string;
+  balance: number;
+  currency: string;
+  color: string;
+};
+
+type CardType = {
+  id: string;
+  name: string;
+  lastFour: string;
+  type: string;
+  color: string;
+};
+
+type ReviewStepProps = {
+  amount: string;
+  currency: string;
+  selectedAccount: AccountType;
+  selectedCard: CardType;
+  action: "deposit" | "contract" | "transfer";
+  onConfirm: () => void;
+};
+
+export default function ReviewStep({
+  amount,
+  currency,
+  selectedAccount,
+  selectedCard,
+  action,
+  onConfirm,
+}: ReviewStepProps) {
+  const formatAmount = (amount: string) => {
+    if (!amount) return "0.00";
+    const num = parseFloat(amount) / 100;
+    return num.toLocaleString("en-GB", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+
+  const getTitle = 
+    action === "deposit" 
+    ? "Deposit"
+    : action === "contract"
+    ? "Contract"
+    :"Transfer"
+
+
+  return (
+    <div className="h-full flex flex-col">
+      {/* Simple header like SwitchModal */}
+      <div className="mb-4">
+        <h3 className="text-lg font-semibold">Review Transaction</h3>
+      </div>
+      
+      {/* Scrollable content area - exactly like SwitchModal */}
+      <div className="flex-1 overflow-y-auto pr-1">
+        <div className="mb-6">
+          <div className="text-center mb-6">
+            <h4 className="font-semibold text-gray-800 mb-2">Transaction Summary</h4>
+            <p className="text-sm text-gray-500">Review before confirming</p>
+          </div>
+        </div>
+        
+        <div className="space-y-4">
+          <div className="pb-3 border-b border-gray-200">
+            <p className="text-gray-600 text-sm mb-1">Amount</p>
+            <div className="flex justify-between items-center">
+              <div className="font-semibold text-lg">{currency} {formatAmount(amount)}</div>
+              <p className="text-sm text-gray-500">Including all fees</p>
+            </div>
+          </div>
+          
+          <div className="pb-3 border-b border-gray-200">
+            <p className="text-gray-600 text-sm mb-1">From</p>
+            <div className="flex items-center gap-3">
+              <div className={`h-10 w-10 rounded-full ${selectedCard.color}`}></div>
+              <div>
+                <div className="font-medium">{selectedCard.name}</div>
+                <div className="text-sm text-gray-500">•••• {selectedCard.lastFour}</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="pb-3 border-b border-gray-200">
+            <p className="text-gray-600 text-sm mb-1">To</p>
+            <div className="flex items-center gap-3">
+              <div className={`h-10 w-10 rounded-full ${selectedAccount.color}`}></div>
+              <div>
+                <div className="font-medium">{selectedAccount.name}</div>
+                <div className="text-sm text-gray-500">{selectedAccount.currency} Account</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="pb-3 border-b border-gray-200">
+            <div className="flex justify-between">
+              <p className="text-gray-600">Type</p>
+              <span className="font-medium">{getTitle}</span>
+            </div>
+          </div>
+          
+          <div className="pb-3">
+            <div className="flex justify-between">
+              <p className="text-gray-600">Date</p>
+              <span className="font-medium">
+                {new Date().toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="mt-6 pt-4 border-t border-gray-200">
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600 font-medium">Total</span>
+            <div className="text-right">
+              <div className="text-xl font-bold">{currency} {formatAmount(amount)}</div>
+              <div className="text-sm text-gray-500">Amount to be transferred</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Fixed buttons at bottom - exactly like SwitchModal */}
+      <div className="space-y-3 mt-4">
+        <button
+          onClick={onConfirm}
+          className="btn-primary rounded-2xl w-full h-[50px] font-semibold"
+        >
+          Confirm {getTitle}
+        </button>
+      </div>
+    </div>
+  );
+}
