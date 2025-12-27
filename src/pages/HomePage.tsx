@@ -25,7 +25,7 @@ const HomePage = () => {
     
           {/*accounts*/}
           <div className="mt-4 flex flex-row gap-4">
-          <AccountCard/>
+          <CreateAccountCard/>
            <AccountCard/>
           </div>
         </div>

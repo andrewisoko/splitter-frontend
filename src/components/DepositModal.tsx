@@ -14,7 +14,8 @@ export default function DepositModal({ open,close,action }:TranOptModalProps) {
 
       const [amount,setAmount] = useState<string>("");
       const [currencyModal,setCurrencyModal] = useState(false);
-      const [switchModal,setSwitchModal] = useState(false);
+      // const [switchModal,setSwitchModal] = useState(false);
+      const [switchModal,setSwitchModal] = useState<"cards"|"accounts"|null>(null);
 
       const [step,setSteps] = useState<"amount"|"cards"|"payments">("amount");
 
@@ -24,8 +25,7 @@ export default function DepositModal({ open,close,action }:TranOptModalProps) {
       setAmount(numeric);
     };
 
-
-      if (!open || !action) return null;
+    if (!open || !action) return null;
 
         const title =
         action === "deposit"
@@ -38,11 +38,8 @@ export default function DepositModal({ open,close,action }:TranOptModalProps) {
       return (
         <>
           <CurrencyModal open={currencyModal} close={()=>setCurrencyModal(false)}/>
-          <SwitchModal open={switchModal} close={()=>setSwitchModal(false)}/>
+          <SwitchModal open={switchModal} close={()=>setSwitchModal(null)}/>
           
-
-
-
           <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
             <div className="h-[550px] w-full max-w-md rounded-2xl bg-white p-6 shadow-lg">
 
@@ -118,7 +115,7 @@ export default function DepositModal({ open,close,action }:TranOptModalProps) {
 
                   <div className="flex justify-between">
                    <p className="font-semibold">Select card</p>
-                   <button onClick={()=> setSwitchModal(true)} className="mr-4 text-blue-500 hover:text-blue-700">switch</button>
+                   <button onClick={()=> setSwitchModal("cards")} className="mr-4 text-blue-500 hover:text-blue-700">switch</button>
                   </div>
                   <div className="bg-gray-200 flex items-center gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-10">
                     <span className="ml-5 font-medium">Main card •••• 1234</span>
@@ -126,9 +123,13 @@ export default function DepositModal({ open,close,action }:TranOptModalProps) {
                   </div>
                    <div className="flex justify-between">
                   <p className="font-semibold mb-2">Select account</p>
-                  <button className="mr-4 text-blue-500 hover:text-blue-700">switch</button>
+                  <button onClick={()=> setSwitchModal("accounts")} className="mr-4 text-blue-500 hover:text-blue-700">switch</button>
                   </div>
-                  <div className="bg-gray-200 flex items-center gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-12"></div>
+                  <div className="bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-12">
+                    <p className="ml-7 mt-5 font-semibold text-[20px]">0.00</p>
+                    <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
+                    <p className="mt-5 font-semibold text-sm">GBP</p>
+                  </div>
                   <button className="btn-primary rounded-2xl w-full h-[50px]">
                   continue
                 </button>

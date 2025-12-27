@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 type OpCls = {
-    open: boolean;
+    open: "cards" | "accounts"| null;
     close: () => void;
+    // switchOption : "cards" | "accounts"
 }
 
 export default function SwitchModal({open,close}:OpCls){
     const [cardDetails,setCardDetails]= useState(false)
+
     if (!open) return null;
 
     return(
         <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="h-[550px] w-full max-w-md rounded-2xl bg-universe p-6 shadow-lg flex flex-col">
-             
+            
+            {open === "cards" && (
+                <>
             <div className="flex items-center justify-between mb-4">
               <h1 className="text-lg text-white">Cards Available</h1>
               <button
@@ -21,7 +25,6 @@ export default function SwitchModal({open,close}:OpCls){
                   ×
                 </button>
             </div>
-                
                 <div className="opacity-50 bg-gray-100 rounded-2xl h-14 w-full flex justify-between items-center mb-16">
                     <p className="mt-3 ml-4 text-black">Add card</p>
                     <button onClick={()=>setCardDetails(true)} className="bg-gray-500 h-10 w-10 mr-3 rounded-full flex justify-center items-center hover:cursor-pointer hover:bg-gray-700">
@@ -137,6 +140,36 @@ export default function SwitchModal({open,close}:OpCls){
                     </>
                     )}
                 </div>
+                </>
+                )}
+                { open === "accounts" &&(
+                    <>
+                     <div className="flex items-center justify-between mb-12">
+                        <h1 className="text-lg text-white">Select Accounts</h1>
+                        <button
+                            onClick={close}
+                            className="text-gray-500 font-bold hover:text-gray-700 text-xl leading-none"
+                            >
+                            ×
+                            </button>
+                        </div>
+                        <div className="bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8">
+                        <p className="ml-7 mt-5 font-semibold text-[20px]">0.00</p>
+                            <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
+                            <p className="mt-5 font-semibold text-sm">GBP</p>
+                        </div>
+                        <div className="bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8">
+                              <p className="ml-7 mt-5 font-semibold text-[20px]">0.00</p>
+                            <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
+                            <p className="mt-5 font-semibold text-sm">EUR</p>
+                        </div>
+                        <div className="bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8">
+                         <p className="ml-7 mt-5 font-semibold text-[20px]">0.00</p>
+                            <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
+                            <p className="mt-5 font-semibold text-sm">USD</p>
+                        </div>
+                    </>
+                )}
             </div>
         </div>   
     )
