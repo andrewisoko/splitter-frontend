@@ -6,10 +6,13 @@ import ReviewStep from "./ReviewStep";
 type TranOptModalProps = {
   open: boolean;
   close: () => void;
-  action: "deposit" | "contract" | "transfer" | null;
+ 
 };
 
-export default function DepositModal({ open, close, action }: TranOptModalProps) {
+export default function DepositModal({ open, close}: TranOptModalProps) {
+
+  const action = "deposit";
+
   const [amount, setAmount] = useState<string>("");
   const [currencyModal, setCurrencyModal] = useState(false);
   const [switchModal, setSwitchModal] = useState<"cards" | "accounts" | null>(null);
@@ -35,16 +38,7 @@ export default function DepositModal({ open, close, action }: TranOptModalProps)
     const numeric = value.replace(/\D/g, "");
     setAmount(numeric);
   };
-
-  const formatAmount = (amount: string) => {
-    if (!amount) return "0.00";
-    const num = parseFloat(amount) / 100;
-    return num.toLocaleString("en-GB", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  };
-
+  
   const handleConfirmTransaction = () => {
     console.log("Transaction confirmed:", {
       action,
@@ -56,14 +50,6 @@ export default function DepositModal({ open, close, action }: TranOptModalProps)
     close();
   };
 
-  if (!open || !action) return null;
-
-  const title =
-    action === "deposit"
-      ? "Deposit"
-      : action === "contract"
-      ? "Contract"
-      : "Transfer";
 
   const handleBack = () => {
     if (step === "cards") {
@@ -72,6 +58,17 @@ export default function DepositModal({ open, close, action }: TranOptModalProps)
       setSteps("cards");
     }
   };
+
+  const formatAmount = (amount: string) => {
+    if (!amount) return "0.00";
+    const num = parseFloat(amount) / 100;
+    return num.toLocaleString("en-GB", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+
+  if (!open) return null;
 
   return (
     <>
@@ -103,7 +100,7 @@ export default function DepositModal({ open, close, action }: TranOptModalProps)
               </button>
             )}
             <h2 className={`text-xl font-semibold ${step === "amount" ? "ml-40" : "mr-10"}`}>
-              {title}
+              Deposit
             </h2>
             <button
               onClick={close}
@@ -202,7 +199,7 @@ export default function DepositModal({ open, close, action }: TranOptModalProps)
             )}
 
             {step === "review" && (
-              <div className="h-full">
+              <div className="h-full ">
                 <ReviewStep
                   amount={amount}
                   currency={currency}

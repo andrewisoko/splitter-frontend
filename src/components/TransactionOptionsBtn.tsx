@@ -1,33 +1,41 @@
 import { useState } from "react";
 import DepositModal from "./DepositModal";
+import ContractModal from "./ContractModal";
+import TransferModal from "./TransferModal";
 
 
 export default function TransactionOptionsBtn (){
 
 
-  const [openedModal,setOpenedModal] = useState(false);
-  const [action,setActions] = useState<"deposit"|"contract"|"transfer"|null>(null);
+  const [depositModal,setDepositModal] = useState(false);
+  const [contractModal,setContractModal] = useState(false);
+  const [transferModal,setTransferModal] = useState(false);
 
-const openFor = (type:"deposit"|"contract"|"transfer") =>{
-    setOpenedModal(true)
-    setActions(type)
-  }
+
+
     return (
             <>
             <DepositModal 
-            open={openedModal}
-             close={() => setOpenedModal(false)} 
-             action={action}
+            open={depositModal}
+             close={() => setDepositModal(false)} 
              />
-            
+            <ContractModal
+            open={contractModal}
+             close={() => setContractModal(false)} 
+            />
+            <TransferModal
+            open={transferModal}
+             close={() => setTransferModal(false)} 
+            />
+
             <div className="mt-4 lg:mt-10 flex flex-row gap-4">
-              <button onClick={()=>openFor("deposit")}className="btn-primary rounded-full w-full md:w-auto">
+              <button onClick={()=>setDepositModal(true)}className="btn-primary rounded-full w-full md:w-auto">
                 Deposit 
               </button>
-              <button onClick={()=>openFor("contract")} className="btn-primary rounded-full w-full md:w-auto">
+              <button onClick={()=>setContractModal(true)} className="btn-primary rounded-full w-full md:w-auto">
                 Contract
               </button>
-              <button onClick={()=>openFor("transfer")} className="btn-primary rounded-full w-full md:w-auto">
+              <button onClick={()=>setTransferModal(true)} className="btn-primary rounded-full w-full md:w-auto">
                 Transfer
               </button>
           </div>

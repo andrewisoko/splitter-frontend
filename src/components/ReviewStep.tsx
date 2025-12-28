@@ -51,7 +51,7 @@ export default function ReviewStep({
 
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col m">
       {/* Simple header like SwitchModal */}
       <div className="mb-4">
         <h3 className="text-lg font-semibold">Review Transaction</h3>
@@ -67,7 +67,7 @@ export default function ReviewStep({
         </div>
         
         <div className="space-y-4">
-          <div className="pb-3 border-b border-gray-200">
+          <div className="pb-3 border-b  border-gray-200 mr-6">
             <p className="text-gray-600 text-sm mb-1">Amount</p>
             <div className="flex justify-between items-center">
               <div className="font-semibold text-lg">{currency} {formatAmount(amount)}</div>
@@ -75,10 +75,10 @@ export default function ReviewStep({
             </div>
           </div>
           
-          <div className="pb-3 border-b border-gray-200">
+          <div className="pb-3 flex justify-between border-b border-gray-200 mr-6">
             <p className="text-gray-600 text-sm mb-1">From</p>
             <div className="flex items-center gap-3">
-              <div className={`h-10 w-10 rounded-full ${selectedCard.color}`}></div>
+              <div className={`h-8 w-8 rounded-full ${selectedCard.color}`}></div>
               <div>
                 <div className="font-medium">{selectedCard.name}</div>
                 <div className="text-sm text-gray-500">•••• {selectedCard.lastFour}</div>
@@ -86,10 +86,10 @@ export default function ReviewStep({
             </div>
           </div>
           
-          <div className="pb-3 border-b border-gray-200">
+          <div className="pb-3 border-b flex justify-between border-gray-200 mr-6">
             <p className="text-gray-600 text-sm mb-1">To</p>
             <div className="flex items-center gap-3">
-              <div className={`h-10 w-10 rounded-full ${selectedAccount.color}`}></div>
+              <div className={`h-8 w-8 rounded-full ${selectedAccount.color}`}></div>
               <div>
                 <div className="font-medium">{selectedAccount.name}</div>
                 <div className="text-sm text-gray-500">{selectedAccount.currency} Account</div>
@@ -97,14 +97,14 @@ export default function ReviewStep({
             </div>
           </div>
           
-          <div className="pb-3 border-b border-gray-200">
+          <div className="pb-3 border-b border-gray-200 mr-6">
             <div className="flex justify-between">
               <p className="text-gray-600">Type</p>
               <span className="font-medium">{getTitle}</span>
             </div>
           </div>
           
-          <div className="pb-3">
+          <div className=" mr-6">
             <div className="flex justify-between">
               <p className="text-gray-600">Date</p>
               <span className="font-medium">
@@ -118,7 +118,7 @@ export default function ReviewStep({
           </div>
         </div>
         
-        <div className="mt-6 pt-4 border-t border-gray-200">
+        <div className="mt-6 pt-4 border-t border-gray-200 mr-6">
           <div className="flex justify-between items-center">
             <span className="text-gray-600 font-medium">Total</span>
             <div className="text-right">

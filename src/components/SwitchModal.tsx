@@ -1,8 +1,7 @@
 import { useState,useEffect } from "react";
 type OpCls = {
     open: "cards" | "accounts"| null;
-    close: () => void;
-    // switchOption : "cards" | "accounts"
+    close: () => void;  
 }
 
 export default function SwitchModal({open,close}:OpCls){
