@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DepositModal from "./DepositModal";
-import ContractModal from "./ContractModal";
+import WithdrawModal from "./WithdrawModal";
 import TransferModal from "./TransferModal";
 
 
@@ -19,7 +19,7 @@ export default function TransactionOptionsBtn (){
             open={depositModal}
              close={() => setDepositModal(false)} 
              />
-            <ContractModal
+            <WithdrawModal
             open={contractModal}
              close={() => setContractModal(false)} 
             />

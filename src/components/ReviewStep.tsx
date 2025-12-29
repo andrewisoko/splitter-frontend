@@ -21,7 +21,7 @@ type ReviewStepProps = {
   currency: string;
   selectedAccount: AccountType;
   selectedCard: CardType;
-  action: "deposit" | "contract" | "transfer";
+  action: "deposit" | "withdraw" | "transfer";
   onConfirm: () => void;
 };
 
@@ -45,8 +45,8 @@ export default function ReviewStep({
   const getTitle = 
     action === "deposit" 
     ? "Deposit"
-    : action === "contract"
-    ? "Contract"
+    : action === "withdraw"
+    ? "Withdraw"
     :"Transfer"
 
 
