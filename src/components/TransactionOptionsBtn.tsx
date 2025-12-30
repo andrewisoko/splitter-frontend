@@ -33,7 +33,7 @@ export default function TransactionOptionsBtn (){
                 Deposit 
               </button>
               <button onClick={()=>setContractModal(true)} className="btn-primary rounded-full w-full md:w-auto">
-                Contract
+                Withdraw
               </button>
               <button onClick={()=>setTransferModal(true)} className="btn-primary rounded-full w-full md:w-auto">
                 Transfer
