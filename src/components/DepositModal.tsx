@@ -15,7 +15,6 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
   const action = "deposit";
 
   const [amount, setAmount] = useState<string>("");
-  // const [currencyModal, setCurrencyModal] = useState(false);
   const [switchModal, setSwitchModal] = useState<"cards" | "accounts" | null>(null);
   const [step, setSteps] = useState<"amount" | "cards" | "review">("amount");
   const [currency, setCurrency] = useState<string>("GBP");
@@ -34,11 +33,7 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
     color: "bg-blue-600",
   });
 
-  // const handleAmountChange = (e: any) => {
-  //   const value = e.target.value;
-  //   const numeric = value.replace(/\D/g, "");
-  //   setAmount(numeric);
-  // };
+  
   
   const handleConfirmTransaction = () => {
     console.log("Transaction confirmed:", {
