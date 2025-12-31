@@ -9,7 +9,7 @@ type AmountSectionProps = {
 };
 
 
-export default function AmountSection({
+export default function AmountStep({
   action,
   amount,
   setAmount,

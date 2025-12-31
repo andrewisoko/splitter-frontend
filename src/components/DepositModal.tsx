@@ -1,6 +1,6 @@
 import { useState } from "react";
 // import CurrencyModal from "../CurrencyModal";
-import AmountSection from "./AmountSection";
+import AmountStep from "./AmountStep";
 import SwitchModal from "./SwitchModal";
 import ReviewStep from "./ReviewStep";
 
@@ -119,7 +119,7 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
           {/* Content Area - This is where the step content goes */}
           <div className="flex-1 overflow-hidden">
             {step === "amount" && (
-                 <AmountSection
+                 <AmountStep
                 action={action}
                 amount={amount}
                 setAmount={setAmount}
