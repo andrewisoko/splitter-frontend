@@ -1,6 +1,7 @@
 import { useState } from "react";
 import CurrencyModal from "../CurrencyModal";
 import AmountStep from "./AmountStep";
+import ReceiverStep from "./ReceiverSteps";
 
 type OpCls = {
     open: boolean;
@@ -45,15 +46,15 @@ export default function TransferModal({open,close}:OpCls){
             </div>
           </div>
           <div className="flex-1 overflow-hidden">
-                  {step === "amount" && ( 
-                    <AmountStep
-                      action={action}
-                      amount={amount}
-                      setAmount={setAmount}
-                      goNext={() => setSteps("receiver")}
-                    />
-             
+            {step === "amount" && ( 
+              <AmountStep
+                action={action}
+                amount={amount}
+                setAmount={setAmount}
+                goNext={() => setSteps("receiver")}
+              />
             )}
+            {step === "receiver" && (<ReceiverStep/>)}
         </div>
         </div>
     </div>

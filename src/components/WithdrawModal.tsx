@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AmountStep from "./AmountStep";
+import BankStep from "./BankStep";
 
 
 type OpCls = {
@@ -46,6 +47,8 @@ export default function WithdrawModal({open,close}:OpCls){
                         goNext={() => setSteps("bank")}
                         />
                     )} 
+                    
+                {step === "bank" && (<BankStep/>)}
                 </div>
              </div>
             </div>
