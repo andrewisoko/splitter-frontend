@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import CurrencyModal from "../CurrencyModal";
 import AmountStep from "./AmountStep";
 import ReceiverStep from "./ReceiverSteps";
@@ -30,6 +30,13 @@ export default function TransferModal({open,close}:OpCls){
       currency: "GBP",
       color: "bg-yellow-600",
     });
+
+     useEffect(() => {
+        if (!open) {
+          setSteps("amount");
+          setAmount("");
+        }
+      }, [open]);
   
 
     if (!open) return null

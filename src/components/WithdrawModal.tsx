@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import AmountStep from "./AmountStep";
 import BankStep from "./BankStep";
 import ReviewStep from "./ReviewStep";
@@ -30,6 +30,15 @@ export default function WithdrawModal({open,close}:OpCls){
     type: "MasterCard",
     color: "bg-red-500",
     });
+
+    useEffect(() => {
+        if (!open) {
+    
+          setSteps("amount");
+          setAmount("");
+        }
+      }, [open]);
+  
       
     if (!open) return null
     return (

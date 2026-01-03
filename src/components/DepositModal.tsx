@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect, use } from "react";
 import AmountStep from "./AmountStep";
 import SwitchModal from "./SwitchModal";
 import ReviewStep from "./ReviewStep";
@@ -35,7 +35,15 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
   });
 
 
-  
+  useEffect(() => {
+    if (!open) {
+
+      setSteps("amount");
+      setAmount("");
+      setSwitchModal(null);
+    }
+  }, [open]);
+
   
   const handleConfirmTransaction = () => {
     console.log("Transaction confirmed:", {
