@@ -1,11 +1,25 @@
 import { useState } from "react";
+import CurrencyModal from "../CurrencyModal";
 
 
-export default function BankStep(){
+type BankProps = {
+
+    // action: string;
+    // amount: string;
+    // setAmount: (value: string) => void;
+    goNext: () => void;     
+}
+
+
+export default function BankStep({goNext}:BankProps){
+    const [currencyModal,setCurrencyModal] = useState(false)
+
     return(
+        <>
+         <CurrencyModal open={currencyModal} close={() => setCurrencyModal(false)}/>
         <div className="flex flex-col h-full">
             {/* <!-- Title --> */}
-            <h3 className="text-lg font-semibold mb-4">Select Bank</h3>
+            <h3 className="text-lg font-semibold mb-4">Select Card</h3>
             
             {/* <!-- Bank Accounts List --> */}
             <div className="space-y-4 flex-1 overflow-y-auto pr-1">
@@ -104,10 +118,11 @@ export default function BankStep(){
             {/*   
             <!-- Continue Button --> */}
             <div className="mt-6">
-                <button className="btn-primary rounded-2xl w-full h-[50px] mt-auto ">
+                <button onClick={()=>goNext()} className="btn-primary rounded-2xl w-full h-[50px] mt-auto ">
                 Continue
                 </button>
             </div>
             </div>
+        </>
     )
 }

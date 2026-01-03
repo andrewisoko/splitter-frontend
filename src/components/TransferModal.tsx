@@ -2,6 +2,7 @@ import { useState } from "react";
 import CurrencyModal from "../CurrencyModal";
 import AmountStep from "./AmountStep";
 import ReceiverStep from "./ReceiverSteps";
+import ReviewStep from "./ReviewStep";
 
 type OpCls = {
     open: boolean;
@@ -10,16 +11,27 @@ type OpCls = {
 
 export default function TransferModal({open,close}:OpCls){
 
-    const action = "withdraw"
+    const action = "transfer"
     const [amount, setAmount] = useState<string>("");
     const [step, setSteps] = useState<"amount" | "receiver" | "review">("amount");
     const [currencyModal, setCurrencyModal] = useState(false);
+    const [currency, setCurrency] = useState<string>("GBP");
+    const [selectedAccount, setSelectedAccount] = useState({
+      id: "1",
+      name: "Main Account",
+      balance: 1250.75,
+      currency: "GBP",
+      color: "bg-blue-500",
+    });
+    const [accountReceiver, setAccountReceiver] = useState({
+      id: "3",
+      name: "Other Account",
+      balance: 88.75,
+      currency: "GBP",
+      color: "bg-yellow-600",
+    });
+  
 
-    const handleAmountChange = (e: any) => {
-        const value = e.target.value;
-        const numeric = value.replace(/\D/g, "");
-        setAmount(numeric);
-    };
     if (!open) return null
     return (
         <>
@@ -54,7 +66,21 @@ export default function TransferModal({open,close}:OpCls){
                 goNext={() => setSteps("receiver")}
               />
             )}
-            {step === "receiver" && (<ReceiverStep/>)}
+            {step === "receiver" && (
+              <ReceiverStep
+               goNext={()=>setSteps("review")}
+              />
+            )}
+            {step === "review" && (
+              <ReviewStep
+              amount={amount}
+              currency={currency}
+              selectedAccount={selectedAccount}
+              CardOrAcc={accountReceiver}
+              action={action}
+              onConfirm={close}
+              />
+            )}
         </div>
         </div>
     </div>

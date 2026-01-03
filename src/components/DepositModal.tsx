@@ -4,6 +4,7 @@ import SwitchModal from "./SwitchModal";
 import ReviewStep from "./ReviewStep";
 import CardStep from "./CardStep";
 
+
 type TranOptModalProps = {
   open: boolean;
   close: () => void;
@@ -30,8 +31,9 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
     name: "Main Card",
     lastFour: "1234",
     type: "Visa",
-    color: "bg-blue-600",
+    color: "bg-red-500",
   });
+
 
   
   
@@ -140,7 +142,7 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
                   amount={amount}
                   currency={currency}
                   selectedAccount={selectedAccount}
-                  selectedCard={selectedCard}
+                  CardOrAcc={selectedCard}
                   action={action}
                   onConfirm={handleConfirmTransaction}
                 />

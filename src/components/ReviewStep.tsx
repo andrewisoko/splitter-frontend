@@ -1,6 +1,7 @@
 import React from "react";
 
 type AccountType = {
+
   id: string;
   name: string;
   balance: number;
@@ -20,7 +21,7 @@ type ReviewStepProps = {
   amount: string;
   currency: string;
   selectedAccount: AccountType;
-  selectedCard: CardType;
+  CardOrAcc: CardType | AccountType;
   action: "deposit" | "withdraw" | "transfer";
   onConfirm: () => void;
 };
@@ -29,7 +30,7 @@ export default function ReviewStep({
   amount,
   currency,
   selectedAccount,
-  selectedCard,
+  CardOrAcc: CardOrAcc,
   action,
   onConfirm,
 }: ReviewStepProps) {
@@ -77,17 +78,42 @@ export default function ReviewStep({
           
           <div className="pb-3 flex justify-between border-b border-gray-200 mr-6">
             <p className="text-gray-600 text-sm mb-1">From</p>
+
+            {/*Display review options From*/}
+            {getTitle === "Deposit" && "lastFour" in CardOrAcc &&( 
             <div className="flex items-center gap-3">
-              <div className={`h-8 w-8 rounded-full ${selectedCard.color}`}></div>
+              <div className={`h-8 w-8 rounded-full ${CardOrAcc.color}`}></div>
               <div>
-                <div className="font-medium">{selectedCard.name}</div>
-                <div className="text-sm text-gray-500">•••• {selectedCard.lastFour}</div>
+                <div className="font-medium">{CardOrAcc.name}</div>
+                <div className="text-sm text-gray-500">•••• {CardOrAcc.lastFour}</div>
               </div>
             </div>
+            )}
+            {getTitle === "Withdraw"&&(
+              <div className="flex items-center gap-3">
+              <div className={`h-8 w-8 rounded-full ${selectedAccount.color}`}></div>
+              <div>
+                <div className="font-medium">{selectedAccount.name}</div>
+                <div className="text-sm text-gray-500">{selectedAccount.currency} Account</div>
+              </div>
+            </div>
+            )}
+            {getTitle === "Transfer"&&(
+              <div className="flex items-center gap-3">
+              <div className={`h-8 w-8 rounded-full ${selectedAccount.color}`}></div>
+              <div>
+                <div className="font-medium">{selectedAccount.name}</div>
+                <div className="text-sm text-gray-500">{selectedAccount.currency} Account</div>
+              </div>
+            </div>
+            )}
           </div>
           
           <div className="pb-3 border-b flex justify-between border-gray-200 mr-6">
             <p className="text-gray-600 text-sm mb-1">To</p>
+
+            {/*Display review options to*/}
+            {getTitle === "Deposit" &&(
             <div className="flex items-center gap-3">
               <div className={`h-8 w-8 rounded-full ${selectedAccount.color}`}></div>
               <div>
@@ -95,6 +121,25 @@ export default function ReviewStep({
                 <div className="text-sm text-gray-500">{selectedAccount.currency} Account</div>
               </div>
             </div>
+            )}
+            {getTitle === "Withdraw" && "lastFour" in CardOrAcc &&(
+            <div className="flex items-center gap-3">
+              <div className={`h-8 w-8 rounded-full ${CardOrAcc.color}`}></div>
+              <div>
+                <div className="font-medium">{CardOrAcc.name}</div>
+                <div className="text-sm text-gray-500">•••• {CardOrAcc.lastFour}</div>
+              </div>
+            </div>
+            )}
+             {getTitle === "Transfer" && "currency" in CardOrAcc && (
+            <div className="flex items-center gap-3">
+              <div className={`h-8 w-8 rounded-full ${CardOrAcc.color}`}></div>
+              <div>
+                <div className="font-medium">{CardOrAcc.name}</div>
+                <div className="text-sm text-gray-500">{CardOrAcc.currency} Account</div>
+              </div>
+            </div>
+            )}
           </div>
           
           <div className="pb-3 border-b border-gray-200 mr-6">

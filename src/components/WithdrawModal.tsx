@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AmountStep from "./AmountStep";
 import BankStep from "./BankStep";
+import ReviewStep from "./ReviewStep";
 
 
 type OpCls = {
@@ -13,10 +14,26 @@ export default function WithdrawModal({open,close}:OpCls){
 
     const action = "withdraw";
     const [step, setSteps] = useState<"amount" | "bank"| "review">("amount");
-      const [amount, setAmount] = useState<string>("");
+    const [amount, setAmount] = useState<string>("");
+    const [currency, setCurrency] = useState<string>("GBP");
+    const [selectedAccount, setSelectedAccount] = useState({
+    id: "1",
+    name: "Main Account",
+    balance: 1250.75,
+    currency: "GBP",
+    color: "bg-blue-500",
+     });
+    const [selectedCard, setSelectedCard] = useState({
+    id: "1",
+    name: "Main Card",
+    lastFour: "1234",
+    type: "MasterCard",
+    color: "bg-red-500",
+    });
       
     if (!open) return null
     return (
+        
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
             <div className="h-[550px] w-full max-w-md rounded-2xl bg-white p-6 shadow-lg flex flex-col">
                 <div className="flex items-center justify-between mb-4"> 
@@ -48,9 +65,24 @@ export default function WithdrawModal({open,close}:OpCls){
                         />
                     )} 
                     
-                {step === "bank" && (<BankStep/>)}
+                    {step === "bank" && (
+                        <BankStep
+                            goNext={()=>setSteps("review")}
+                        />
+                    )}
+                    {step == "review" &&(
+                        <ReviewStep
+                        amount={amount}
+                        currency={currency}
+                        selectedAccount={selectedAccount}
+                        CardOrAcc={selectedCard}
+                        action={action}
+                        onConfirm={close}
+                        />
+                    )}
                 </div>
              </div>
             </div>
+           
     )
 }

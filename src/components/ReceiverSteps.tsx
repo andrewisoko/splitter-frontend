@@ -1,10 +1,21 @@
 import { useState } from "react";
+import CurrencyModal from "../CurrencyModal";
 
 
-export default function ReceiverStep(){
+
+type ReceiverProps = {
+
+    goNext: () => void;     
+}
+
+
+export default function ReceiverStep({goNext}:ReceiverProps){
+    const [currencyModal,setCurrencyModal] = useState(false)
     return(
+  <>
+    <CurrencyModal open={currencyModal} close={() => setCurrencyModal(false)}/>
 
-    <div className="flex flex-col h-full">
+  <div className="flex flex-col h-full">
   {/* Title */}
   <h3 className="text-lg font-semibold mb-4">Select Receiver</h3>
   
@@ -149,9 +160,10 @@ export default function ReceiverStep(){
 
   {/* Continue Button */}
   <div className="mt-4">
-    <button className="btn-primary rounded-2xl w-full h-[50px] mt-auto">
+    <button onClick={()=>goNext()} className="btn-primary rounded-2xl w-full h-[50px] mt-auto">
       Continue
     </button>
   </div>
 </div>
+</>
     )}
