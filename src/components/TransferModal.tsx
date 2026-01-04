@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-import CurrencyModal from "../CurrencyModal";
+import CurrencyModal from "./CurrencyModal";
 import AmountStep from "./AmountStep";
 import ReceiverStep from "./ReceiverSteps";
 import ReviewStep from "./ReviewStep";
