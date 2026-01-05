@@ -1,11 +1,30 @@
 import { useState,useEffect } from "react";
 type OpCls = {
-    open: "cards" | "accounts"| null;
-    close: () => void;  
+    open?: "cards" | "accounts"| null;
+    close?: () => void; 
+    onSelect?: (content:string) => void
+
 }
 
-export default function SwitchModal({open,close}:OpCls){
+export default function SwitchModal({open,close,onSelect}:OpCls){
     const [cardDetails,setCardDetails]= useState(false)
+    const [select,setSelect] = useState<string|null>(null)
+
+    const handleSelect = (content:string) =>{
+        setSelect(content)
+        if (onSelect){
+            onSelect(content)
+        }
+        if(close){
+            close()
+        }
+        }
+
+    useEffect(()=>{
+        if(!open){
+            setCardDetails(false)
+        }
+    },[open])
 
     if (!open) return null;
 
@@ -127,15 +146,35 @@ export default function SwitchModal({open,close}:OpCls){
                     </div>
                     ) : (
                     <>
-                        <div className="bg-gray-400 rounded-2xl h-20 w-full flex justify-between items-center mb-4">
-                            <span className="ml-5 font-medium">second card •••• 1234</span>
+                        <div 
+                            onClick={()=>handleSelect("Main card •••• 1234")}
+                            className={`bg-gray-400 rounded-2xl h-20 w-full flex justify-between items-center mb-4 hover:cursor-pointer${
+                                select === "Main card •••• 1234" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
+                            }`}>
+                            <span className="ml-5 font-medium">Main card •••• 1234</span>
                         </div>
-                        <div className="bg-gray-400 rounded-2xl h-20 w-full flex justify-between items-center mb-4">
-                            <span className="ml-5 font-medium">third card •••• 1234</span>
+                        <div 
+                            onClick={()=>handleSelect("Second card •••• 1234")}
+                            className={`bg-gray-400 rounded-2xl h-20 w-full flex justify-between items-center mb-4 hover:cursor-pointer${
+                                select === "Second card •••• 1234" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
+                            }`}>
+                            <span className="ml-5 font-medium">Second card •••• 1234</span>
                         </div>
-                        <div className="bg-gray-400 rounded-2xl h-20 w-full flex justify-between items-center mb-4">
-                            <span className="ml-5 font-medium">fourth card •••• 1234</span>
+                        <div 
+                            onClick={()=>handleSelect("Third card •••• 1234")}
+                            className={`bg-gray-400 rounded-2xl h-20 w-full flex justify-between items-center mb-4 hover:cursor-pointer${
+                                select === "Third card •••• 1234" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
+                            }`}>
+                            <span className="ml-5 font-medium">Third card •••• 1234</span>
                         </div>
+                        {/* <div 
+                            onClick={()=>setSelect("Fourth card")}
+                            className={`bg-gray-400 rounded-2xl h-20 w-full flex justify-between items-center mb-4 hover:cursor-pointer${
+                                select === "Fourth card" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
+                            }`}>
+                            <span className="ml-5 font-medium">Fourth card •••• 1234</span>
+                        </div> */}
+                        
                     </>
                     )}
                 </div>
@@ -152,20 +191,32 @@ export default function SwitchModal({open,close}:OpCls){
                             ×
                             </button>
                         </div>
-                        <div className="bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8">
-                        <p className="ml-7 mt-5 font-semibold text-[20px]">0.00</p>
-                            <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
-                            <p className="mt-5 font-semibold text-sm">GBP</p>
+                        <div 
+                            onClick={()=>handleSelect("GBP")}
+                            className={`bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer${
+                                select === "GBP" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
+                            }`}>
+                            <p className="ml-7 mt-5 font-semibold text-[20px]">0.00</p>
+                                <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
+                                <p className="mt-5 font-semibold text-sm">GBP</p>
                         </div>
-                        <div className="bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8">
-                              <p className="ml-7 mt-5 font-semibold text-[20px]">0.00</p>
-                            <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
-                            <p className="mt-5 font-semibold text-sm">EUR</p>
+                        <div 
+                            onClick={()=>handleSelect("EUR")}
+                            className={`bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer${
+                                select === "EUR" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
+                            }`}>
+                            <p className="ml-7 mt-5 font-semibold text-[20px]">0.00</p>
+                                <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
+                                <p className="mt-5 font-semibold text-sm">EUR</p>
                         </div>
-                        <div className="bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8">
-                         <p className="ml-7 mt-5 font-semibold text-[20px]">0.00</p>
-                            <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
-                            <p className="mt-5 font-semibold text-sm">USD</p>
+                        <div 
+                            onClick={()=>handleSelect("USD")}
+                            className={`bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer${
+                                select === "USD" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
+                            }`}>
+                            <p className="ml-7 mt-5 font-semibold text-[20px]">0.00</p>
+                                <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
+                                <p className="mt-5 font-semibold text-sm">USD</p>
                         </div>
                     </>
                 )}

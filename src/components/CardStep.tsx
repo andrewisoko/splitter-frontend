@@ -1,13 +1,17 @@
 import { useState } from "react";
+import SwitchModal from "./SwitchModal";
+
 
 type CardProps = {
     onSwitchCards: ()=>void;
     onSwitchAmounts: ()=>void;
     goNext:()=>void;
+    content: string; 
 }
 
-export default function CardStep({onSwitchCards,onSwitchAmounts,goNext}:CardProps){
+export default function CardStep({onSwitchCards,onSwitchAmounts,goNext,content}:CardProps){
     return(
+          <>
           <div className="h-full flex flex-col">
                 <div className="flex-1">
                   <div className="flex justify-between">
@@ -20,7 +24,7 @@ export default function CardStep({onSwitchCards,onSwitchAmounts,goNext}:CardProp
                     </button>
                   </div>
                   <div className="bg-gray-200 flex items-center gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-10">
-                    <span className="ml-5 font-medium">Main card •••• 1234</span>
+                    <span className="ml-5 font-medium">{content}</span>
                   </div>
                   <div className="flex justify-between">
                     <p className="font-semibold mb-2">Select account</p>
@@ -44,5 +48,6 @@ export default function CardStep({onSwitchCards,onSwitchAmounts,goNext}:CardProp
                   continue
                 </button>
               </div>
+            </>
     )
 }

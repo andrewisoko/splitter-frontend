@@ -19,6 +19,7 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
   const [switchModal, setSwitchModal] = useState<"cards" | "accounts" | null>(null);
   const [step, setSteps] = useState<"amount" | "cards" | "review">("amount");
   const [currency, setCurrency] = useState<string>("GBP");
+   const [cardContent, setCardContent] = useState("Main card •••• 1234");
   const [selectedAccount, setSelectedAccount] = useState({
     id: "1",
     name: "Main Account",
@@ -78,7 +79,13 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
 
   return (
     <>
-      <SwitchModal open={switchModal} close={() => setSwitchModal(null)} />
+      <SwitchModal 
+        open={switchModal} 
+        close={() => setSwitchModal(null)}
+        onSelect={(value) => {
+          setCardContent(value);   
+        }}
+      />
 
       <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
         <div className="h-[550px] w-full max-w-md rounded-2xl bg-white p-6 shadow-lg flex flex-col">
@@ -138,9 +145,10 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
 
             {step === "cards" && (
               <CardStep
-              onSwitchCards={() => setSwitchModal("cards")}
-              onSwitchAmounts={ () => setSwitchModal("accounts")}
-              goNext={()=> setSteps("review")}
+                content={cardContent}
+                onSwitchCards={() => setSwitchModal("cards")}
+                onSwitchAmounts={() => setSwitchModal("accounts")}
+                goNext={()=> setSteps("review")}
               />
             )}
 
