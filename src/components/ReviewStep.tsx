@@ -3,22 +3,22 @@ import React from "react";
 type AccountType = {
 
   id: string;
-  name: string;
   balance: number;
-  currency: string;
   color: string;
+  currency:string /*fix logic mess later on*/
 };
 
 type CardType = {
   id: string;
-  name: string;
-  lastFour: string;
+  lastFour: string; /*fix logic mess later on*/
   type: string;
   color: string;
 };
 
 type ReviewStepProps = {
   amount: string;
+  nameCard:string;
+  currencyAccount:string;
   currency: string;
   selectedAccount: AccountType;
   CardOrAcc: CardType | AccountType;
@@ -30,8 +30,10 @@ export default function ReviewStep({
   amount,
   currency,
   selectedAccount,
-  CardOrAcc: CardOrAcc,
+  CardOrAcc,
   action,
+  nameCard,
+  currencyAccount,
   onConfirm,
 }: ReviewStepProps) {
   const formatAmount = (amount: string) => {
@@ -84,8 +86,8 @@ export default function ReviewStep({
             <div className="flex items-center gap-3">
               <div className={`h-8 w-8 rounded-full ${CardOrAcc.color}`}></div>
               <div>
-                <div className="font-medium">{CardOrAcc.name}</div>
-                <div className="text-sm text-gray-500">•••• {CardOrAcc.lastFour}</div>
+                <div className="font-medium">{nameCard}</div>
+            
               </div>
             </div>
             )}
@@ -93,8 +95,7 @@ export default function ReviewStep({
               <div className="flex items-center gap-3">
               <div className={`h-8 w-8 rounded-full ${selectedAccount.color}`}></div>
               <div>
-                <div className="font-medium">{selectedAccount.name}</div>
-                <div className="text-sm text-gray-500">{selectedAccount.currency} Account</div>
+                <div className="font-medium">{currencyAccount} Account</div>
               </div>
             </div>
             )}
@@ -102,8 +103,7 @@ export default function ReviewStep({
               <div className="flex items-center gap-3">
               <div className={`h-8 w-8 rounded-full ${selectedAccount.color}`}></div>
               <div>
-                <div className="font-medium">{selectedAccount.name}</div>
-                <div className="text-sm text-gray-500">{selectedAccount.currency} Account</div>
+                <div className="font-medium">{currencyAccount} Account</div>
               </div>
             </div>
             )}
@@ -117,8 +117,7 @@ export default function ReviewStep({
             <div className="flex items-center gap-3">
               <div className={`h-8 w-8 rounded-full ${selectedAccount.color}`}></div>
               <div>
-                <div className="font-medium">{selectedAccount.name}</div>
-                <div className="text-sm text-gray-500">{selectedAccount.currency} Account</div>
+                <div className="font-medium">{currencyAccount} Account</div>
               </div>
             </div>
             )}
@@ -126,8 +125,7 @@ export default function ReviewStep({
             <div className="flex items-center gap-3">
               <div className={`h-8 w-8 rounded-full ${CardOrAcc.color}`}></div>
               <div>
-                <div className="font-medium">{CardOrAcc.name}</div>
-                <div className="text-sm text-gray-500">•••• {CardOrAcc.lastFour}</div>
+                <div className="font-medium">{nameCard}</div>
               </div>
             </div>
             )}
@@ -135,8 +133,7 @@ export default function ReviewStep({
             <div className="flex items-center gap-3">
               <div className={`h-8 w-8 rounded-full ${CardOrAcc.color}`}></div>
               <div>
-                <div className="font-medium">{CardOrAcc.name}</div>
-                <div className="text-sm text-gray-500">{CardOrAcc.currency} Account</div>
+                <div className="font-medium">{currencyAccount} Account</div>
               </div>
             </div>
             )}

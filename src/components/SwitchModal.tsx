@@ -1,24 +1,28 @@
 import { useState,useEffect } from "react";
 type OpCls = {
-    open?: "cards" | "accounts"| null;
-    close?: () => void; 
-    onSelect?: (content:string) => void
-
+    open: "cards" | "accounts"| null;
+    amount:string;
+    close: () => void; 
+    onSelectCard: (content:string) => void
+    onSelectCurrency: (content:string) => void
 }
 
-export default function SwitchModal({open,close,onSelect}:OpCls){
+export default function SwitchModal({open,amount,close,onSelectCard,onSelectCurrency}:OpCls){
     const [cardDetails,setCardDetails]= useState(false)
-    const [select,setSelect] = useState<string|null>(null)
+    const [selectcard,setSelectCard] = useState<string|null>(null)
+    const [selectCurrency,setSelectCurrency] = useState<string|null>(null)
+    
 
-    const handleSelect = (content:string) =>{
-        setSelect(content)
-        if (onSelect){
-            onSelect(content)
+    const handleSelectCard = (content:string) =>{
+        setSelectCard(content)
+        onSelectCard(content)
+        close()
         }
-        if(close){
-            close()
-        }
-        }
+    const handleSelectCurrency = (content:string) => {
+        setSelectCurrency(content)
+        onSelectCurrency(content)
+        close()
+    }
 
     useEffect(()=>{
         if(!open){
@@ -147,23 +151,23 @@ export default function SwitchModal({open,close,onSelect}:OpCls){
                     ) : (
                     <>
                         <div 
-                            onClick={()=>handleSelect("Main card •••• 1234")}
+                            onClick={()=>handleSelectCard("Main card •••• 1234")}
                             className={`bg-gray-400 rounded-2xl h-20 w-full flex justify-between items-center mb-4 hover:cursor-pointer${
-                                select === "Main card •••• 1234" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
+                                selectcard === "Main card •••• 1234" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
                             }`}>
                             <span className="ml-5 font-medium">Main card •••• 1234</span>
                         </div>
                         <div 
-                            onClick={()=>handleSelect("Second card •••• 1234")}
+                            onClick={()=>handleSelectCard("Second card •••• 1234")}
                             className={`bg-gray-400 rounded-2xl h-20 w-full flex justify-between items-center mb-4 hover:cursor-pointer${
-                                select === "Second card •••• 1234" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
+                                selectcard === "Second card •••• 1234" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
                             }`}>
                             <span className="ml-5 font-medium">Second card •••• 1234</span>
                         </div>
                         <div 
-                            onClick={()=>handleSelect("Third card •••• 1234")}
+                            onClick={()=>handleSelectCard("Third card •••• 1234")}
                             className={`bg-gray-400 rounded-2xl h-20 w-full flex justify-between items-center mb-4 hover:cursor-pointer${
-                                select === "Third card •••• 1234" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
+                                selectcard === "Third card •••• 1234" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
                             }`}>
                             <span className="ml-5 font-medium">Third card •••• 1234</span>
                         </div>
@@ -192,29 +196,29 @@ export default function SwitchModal({open,close,onSelect}:OpCls){
                             </button>
                         </div>
                         <div 
-                            onClick={()=>handleSelect("GBP")}
+                            onClick={()=>handleSelectCurrency("GBP")}
                             className={`bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer${
-                                select === "GBP" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
+                                selectCurrency === "GBP" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
                             }`}>
-                            <p className="ml-7 mt-5 font-semibold text-[20px]">0.00</p>
+                            <p className="ml-7 mt-5 font-semibold text-[20px]">{amount}</p>
                                 <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
                                 <p className="mt-5 font-semibold text-sm">GBP</p>
                         </div>
                         <div 
-                            onClick={()=>handleSelect("EUR")}
+                            onClick={()=>handleSelectCurrency("EUR")}
                             className={`bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer${
-                                select === "EUR" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
+                                selectCurrency === "EUR" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
                             }`}>
-                            <p className="ml-7 mt-5 font-semibold text-[20px]">0.00</p>
+                            <p className="ml-7 mt-5 font-semibold text-[20px]">{amount}</p>
                                 <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
                                 <p className="mt-5 font-semibold text-sm">EUR</p>
                         </div>
                         <div 
-                            onClick={()=>handleSelect("USD")}
+                            onClick={()=>handleSelectCurrency("USD")}
                             className={`bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer${
-                                select === "USD" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
+                                selectCurrency === "USD" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
                             }`}>
-                            <p className="ml-7 mt-5 font-semibold text-[20px]">0.00</p>
+                            <p className="ml-7 mt-5 font-semibold text-[20px]">{amount}</p>
                                 <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
                                 <p className="mt-5 font-semibold text-sm">USD</p>
                         </div>

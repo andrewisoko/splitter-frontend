@@ -16,20 +16,20 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
   const action = "deposit";
 
   const [amount, setAmount] = useState<string>("");
+  const [amountSwitchModal, setAmountModal] = useState<string>("0.00");
   const [switchModal, setSwitchModal] = useState<"cards" | "accounts" | null>(null);
   const [step, setSteps] = useState<"amount" | "cards" | "review">("amount");
   const [currency, setCurrency] = useState<string>("GBP");
+  const [currencySwitchModal, setCurrencySwitchModal] = useState<string>("USD");
    const [cardContent, setCardContent] = useState("Main card •••• 1234");
   const [selectedAccount, setSelectedAccount] = useState({
     id: "1",
-    name: "Main Account",
     balance: 1250.75,
-    currency: "GBP",
+    currency:"Default",
     color: "bg-blue-500",
   });
   const [selectedCard, setSelectedCard] = useState({
     id: "1",
-    name: "Main Card",
     lastFour: "1234",
     type: "Visa",
     color: "bg-red-500",
@@ -81,9 +81,13 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
     <>
       <SwitchModal 
         open={switchModal} 
+        amount={amountSwitchModal}
         close={() => setSwitchModal(null)}
-        onSelect={(value) => {
+        onSelectCard={(value) => {
           setCardContent(value);   
+        }}
+        onSelectCurrency={(value) => {
+          setCurrencySwitchModal(value);   
         }}
       />
 
@@ -145,7 +149,9 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
 
             {step === "cards" && (
               <CardStep
-                content={cardContent}
+                cardContent={cardContent}
+                currencyContent={currencySwitchModal}
+                currencyAmount={amountSwitchModal}
                 onSwitchCards={() => setSwitchModal("cards")}
                 onSwitchAmounts={() => setSwitchModal("accounts")}
                 goNext={()=> setSteps("review")}
@@ -156,6 +162,8 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
               <div className="h-full ">
                 <ReviewStep
                   amount={amount}
+                  nameCard={cardContent}
+                  currencyAccount={currencySwitchModal}
                   currency={currency}
                   selectedAccount={selectedAccount}
                   CardOrAcc={selectedCard}
