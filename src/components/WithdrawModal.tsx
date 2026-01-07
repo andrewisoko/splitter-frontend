@@ -31,6 +31,14 @@ export default function WithdrawModal({open,close}:OpCls){
     color: "bg-red-500",
     });
 
+    const handleBack = () => {
+    if (step === "bank") {
+      setSteps("amount");
+    } else if (step === "review") {
+      setSteps("bank");
+    }
+  };
+
     useEffect(() => {
         if (!open) {
     
@@ -45,7 +53,28 @@ export default function WithdrawModal({open,close}:OpCls){
         
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
             <div className="h-[550px] w-full max-w-md rounded-2xl bg-white p-6 shadow-lg flex flex-col">
+
                 <div className="flex items-center justify-between mb-4"> 
+                    {(step === "bank" || step === "review") && (
+                    <button
+                        className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-gray-100"
+                        aria-label="Go back"
+                        onClick={handleBack}
+                    >
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-5 w-5"
+                        >
+                        <path d="M15 18l-6-6 6-6" />
+                        </svg>
+                    </button>
+                    )}
                     <h2 className={`text-xl font-semibold ${step === "amount" ? "ml-40" : "mr-10"}`}>
                      Withdraw
                     </h2>

@@ -17,9 +17,9 @@ type CardType = {
 
 type ReviewStepProps = {
   amount: string;
+  currency: string;
   nameCard:string;
   currencyAccount:string;
-  currency: string;
   selectedAccount: AccountType;
   CardOrAcc: CardType | AccountType;
   action: "deposit" | "withdraw" | "transfer";
