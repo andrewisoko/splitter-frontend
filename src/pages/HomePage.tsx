@@ -1,10 +1,10 @@
-import AccountCard from "../components/AccountCard";
-import CreateAccountCard from "../components/CreateAccountCard";
+import AccountCard from "../components/Cards/AccountCard";
+import CreateAccountCard from "../components/Cards/CreateAccountCard";
 import Sidebar from "../components/SideBar";
 import Nav from "../components/Nav";
-import BurgerBtn from "../components/BurgerBtn";
+import BurgerBtn from "../components/Buttons/BurgerBtn";
 import UsernameAvatar from "../components/UsernameAvatar";
-import TransactionOptionsBtn from "../components/TransactionOptionsBtn";
+import TransactionOptionsBtn from "../components/Buttons/TransactionOptionsBtn";
 
 
 

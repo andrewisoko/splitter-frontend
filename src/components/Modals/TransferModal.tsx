@@ -1,8 +1,8 @@
 import { useState,useEffect } from "react";
 import CurrencyModal from "./CurrencyModal";
-import AmountStep from "./AmountStep";
-import ReceiverStep from "./ReceiverSteps";
-import ReviewStep from "./ReviewStep";
+import AmountStep from "../Steps/AmountStep";
+import ReceiverStep from "../Steps/ReceiverSteps";
+import ReviewStep from "../Steps/ReviewStep";
 
 type OpCls = {
     open: boolean;

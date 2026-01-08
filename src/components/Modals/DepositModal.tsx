@@ -1,8 +1,8 @@
 import { useState,useEffect, use } from "react";
-import AmountStep from "./AmountStep";
+import AmountStep from "../Steps/AmountStep";
 import SwitchModal from "./SwitchModal";
-import ReviewStep from "./ReviewStep";
-import CardStep from "./CardStep";
+import ReviewStep from "../Steps/ReviewStep";
+import CardStep from "../Steps/CardStep";
 
 
 type TranOptModalProps = {
@@ -153,7 +153,7 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
                 currencyContent={currencySwitchModal}
                 currencyAmount={amountSwitchModal}
                 onSwitchCards={() => setSwitchModal("cards")}
-                onSwitchAmounts={() => setSwitchModal("accounts")}
+                onSwitchAccounts={() => setSwitchModal("accounts")}
                 goNext={()=> setSteps("review")}
               />
             )}

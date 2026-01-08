@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
-import AmountStep from "./AmountStep";
-import BankStep from "./BankStep";
-import ReviewStep from "./ReviewStep";
+import AmountStep from "../Steps/AmountStep";
+import BankStep from "../Steps/BankStep";
+import ReviewStep from "../Steps/ReviewStep";
 
 
 type OpCls = {

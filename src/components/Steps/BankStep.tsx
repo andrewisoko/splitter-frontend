@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CurrencyModal from "./CurrencyModal";
+import CurrencyModal from "../Modals/CurrencyModal";
 
 
 type BankProps = {
@@ -17,6 +17,16 @@ export default function BankStep({goNext}:BankProps){
 
     return(
         <>
+        <div className="flex justify-between">
+                    <p className="font-semibold mb-2">Select account</p>
+                    <button
+                    //   onClick={() => onSwitchAccounts()}
+                      className="mr-4 text-blue-500 hover:text-blue-700"
+                    >
+                      switch
+                    </button>
+                  </div>
+        
         <div className="flex flex-col h-full">
             <h3 className="text-lg font-semibold mb-4">Select Card</h3>
             

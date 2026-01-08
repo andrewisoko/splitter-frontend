@@ -1,7 +1,7 @@
 import { useState } from "react";
-import DepositModal from "./DepositModal";
-import WithdrawModal from "./WithdrawModal";
-import TransferModal from "./TransferModal";
+import DepositModal from "../Modals/DepositModal";
+import WithdrawModal from "../Modals/WithdrawModal";
+import TransferModal from "../Modals/TransferModal";
 
 
 export default function TransactionOptionsBtn (){

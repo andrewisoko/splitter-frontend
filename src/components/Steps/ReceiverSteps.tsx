@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CurrencyModal from "./CurrencyModal";
+import CurrencyModal from "../Modals/CurrencyModal";
 
 
 
