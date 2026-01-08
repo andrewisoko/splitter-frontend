@@ -22,7 +22,7 @@ type ReviewStepProps = {
   currencyAccount:string;
   selectedAccount: AccountType;
   CardOrAcc: CardType | AccountType;
-  action: "deposit" | "withdraw" | "transfer";
+  action: "deposit" | "withdraw" | "transfer"|null;
   onConfirm: () => void;
 };
 

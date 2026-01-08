@@ -1,41 +1,34 @@
 import { useState } from "react";
 import DepositModal from "../Modals/DepositModal";
-import WithdrawModal from "../Modals/WithdrawModal";
-import TransferModal from "../Modals/TransferModal";
-
-
-export default function TransactionOptionsBtn (){
-
-
-  const [depositModal,setDepositModal] = useState(false);
-  const [contractModal,setContractModal] = useState(false);
-  const [transferModal,setTransferModal] = useState(false);
 
 
 
+const TransactionOptionsBtn = () => {
+
+
+  const [openedModal,setOpenedModal] = useState(false);
+  const [action,setActions] = useState<"deposit"|"withdraw"|"transfer"|null>(null);
+
+const openFor = (type:"deposit"|"withdraw"|"transfer") =>{
+    setOpenedModal(true)
+    setActions(type)
+  }
     return (
             <>
-            <DepositModal 
-            open={depositModal}
-             close={() => setDepositModal(false)} 
+            <DepositModal
+            open={openedModal}
+             close={() => setOpenedModal(false)} 
+             action={action}
              />
-            <WithdrawModal
-            open={contractModal}
-             close={() => setContractModal(false)} 
-            />
-            <TransferModal
-            open={transferModal}
-             close={() => setTransferModal(false)} 
-            />
-
+            
             <div className="mt-4 lg:mt-10 flex flex-row gap-4">
-              <button onClick={()=>setDepositModal(true)}className="btn-primary rounded-full w-full md:w-auto">
+              <button onClick={()=>openFor("deposit")}className="btn-primary rounded-full w-full md:w-auto">
                 Deposit 
               </button>
-              <button onClick={()=>setContractModal(true)} className="btn-primary rounded-full w-full md:w-auto">
+              <button onClick={()=>openFor("withdraw")} className="btn-primary rounded-full w-full md:w-auto">
                 Withdraw
               </button>
-              <button onClick={()=>setTransferModal(true)} className="btn-primary rounded-full w-full md:w-auto">
+              <button onClick={()=>openFor("transfer")} className="btn-primary rounded-full w-full md:w-auto">
                 Transfer
               </button>
           </div>
@@ -44,3 +37,4 @@ export default function TransactionOptionsBtn (){
     );
 };
 
+export default TransactionOptionsBtn;

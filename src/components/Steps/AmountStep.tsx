@@ -2,7 +2,7 @@ import { useState } from "react";
 import CurrencyModal from "../Modals/CurrencyModal";
 
 type AmountSectionProps = {
-  action: string;
+  action: string | null;
   amount: string;
   setAmount: (value: string) => void;
   goNext: () => void; 

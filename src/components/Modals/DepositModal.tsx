@@ -2,22 +2,31 @@ import { useState,useEffect, use } from "react";
 import AmountStep from "../Steps/AmountStep";
 import SwitchModal from "./SwitchModal";
 import ReviewStep from "../Steps/ReviewStep";
-import CardStep from "../Steps/CardStep";
+import StepTwo from "../Steps/StepTwo";
+import PayeeModal from "./PayeeModal";
 
 
 type TranOptModalProps = {
   open: boolean;
   close: () => void;
+  action: "deposit"|"withdraw"|"transfer"|null
  
 };
 
-export default function DepositModal({ open, close}: TranOptModalProps) {
+export default function DepositModal({ open, close, action}: TranOptModalProps) {
 
-  const action = "deposit";
+  
+  const title =
+    action === "deposit"
+      ? "Deposit"
+      : action === "withdraw"
+      ? "Withdraw"
+      : "Transfer";
 
   const [amount, setAmount] = useState<string>("");
   const [amountSwitchModal, setAmountModal] = useState<string>("0.00");
   const [switchModal, setSwitchModal] = useState<"cards" | "accounts" | null>(null);
+  const [transAccModal,setTransAccModal] = useState(false)
   const [step, setSteps] = useState<"amount" | "cards" | "review">("amount");
   const [currency, setCurrency] = useState<string>("GBP");
   const [currencySwitchModal, setCurrencySwitchModal] = useState<string>("USD");
@@ -66,6 +75,7 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
     }
   };
 
+
   const formatAmount = (amount: string) => {
     if (!amount) return "0.00";
     const num = parseFloat(amount) / 100;
@@ -89,6 +99,11 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
         onSelectCurrency={(value) => {
           setCurrencySwitchModal(value);   
         }}
+      />
+      <PayeeModal
+        open={transAccModal}
+        
+        close={()=>setTransAccModal(false)}
       />
 
       <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
@@ -116,7 +131,7 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
               </button>
             )}
             <h2 className={`text-xl font-semibold ${step === "amount" ? "ml-40" : "mr-10"}`}>
-              Deposit
+              {title}
             </h2>
             <button
               onClick={close}
@@ -131,7 +146,10 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
             <div className="bg-slate-400 h-1 rounded-full w-full"></div>
             <div className="flex mt-2 justify-between mb-2">
               <p className="text-sm">Amount</p>
-              <p className="text-sm">Card</p>
+              {(title === "Deposit" || title === "Withdraw")
+              ?(<p className="text-sm">Card</p>)
+              :(<p className="text-sm">Accounts</p>)
+              }
               <p className="text-sm">Review</p>
             </div>
           </div>
@@ -147,13 +165,15 @@ export default function DepositModal({ open, close}: TranOptModalProps) {
               />
             )}
 
-            {step === "cards" && (
-              <CardStep
+            {step === "cards"  && (
+              <StepTwo
+              title={title}
                 cardContent={cardContent}
                 currencyContent={currencySwitchModal}
                 currencyAmount={amountSwitchModal}
                 onSwitchCards={() => setSwitchModal("cards")}
                 onSwitchAccounts={() => setSwitchModal("accounts")}
+                onSwitchTransAcc={ () => setTransAccModal(true)}
                 goNext={()=> setSteps("review")}
               />
             )}
