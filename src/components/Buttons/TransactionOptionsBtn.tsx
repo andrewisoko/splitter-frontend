@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DepositModal from "../Modals/DepositModal";
+import MainOpModal from "../Modals/MainOpModal";
 
 
 
@@ -15,7 +15,7 @@ const openFor = (type:"deposit"|"withdraw"|"transfer") =>{
   }
     return (
             <>
-            <DepositModal
+            <MainOpModal
             open={openedModal}
              close={() => setOpenedModal(false)} 
              action={action}

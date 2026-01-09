@@ -13,7 +13,7 @@ type TranOptModalProps = {
  
 };
 
-export default function DepositModal({ open, close, action}: TranOptModalProps) {
+export default function MainOpModal({ open, close, action}: TranOptModalProps) {
 
   
   const title =
@@ -25,11 +25,13 @@ export default function DepositModal({ open, close, action}: TranOptModalProps) 
 
   const [amount, setAmount] = useState<string>("");
   const [amountSwitchModal, setAmountModal] = useState<string>("0.00");
+  const [amountPayee, setAmountPayee] = useState<string>("0.00");
   const [switchModal, setSwitchModal] = useState<"cards" | "accounts" | null>(null);
   const [transAccModal,setTransAccModal] = useState(false)
   const [step, setSteps] = useState<"amount" | "cards" | "review">("amount");
   const [currency, setCurrency] = useState<string>("GBP");
   const [currencySwitchModal, setCurrencySwitchModal] = useState<string>("USD");
+  const [currencyPayee, setCurrencyPayee] = useState<string>("GBP");
    const [cardContent, setCardContent] = useState("Main card •••• 1234");
   const [selectedAccount, setSelectedAccount] = useState({
     id: "1",
@@ -102,8 +104,11 @@ export default function DepositModal({ open, close, action}: TranOptModalProps) 
       />
       <PayeeModal
         open={transAccModal}
-        
+        amount={amountPayee}
         close={()=>setTransAccModal(false)}
+        onSelectCurrency={(value) => {
+          setCurrencyPayee(value);   
+        }}
       />
 
       <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
@@ -168,13 +173,15 @@ export default function DepositModal({ open, close, action}: TranOptModalProps) 
             {step === "cards"  && (
               <StepTwo
               title={title}
-                cardContent={cardContent}
-                currencyContent={currencySwitchModal}
-                currencyAmount={amountSwitchModal}
-                onSwitchCards={() => setSwitchModal("cards")}
-                onSwitchAccounts={() => setSwitchModal("accounts")}
-                onSwitchTransAcc={ () => setTransAccModal(true)}
-                goNext={()=> setSteps("review")}
+              cardContent={cardContent}
+              currencyContent={currencySwitchModal}
+              currencyAmount={amountSwitchModal}
+              amountPayee={amountPayee}
+              currencyPayee={currencyPayee}
+              onSwitchCards={() => setSwitchModal("cards")}
+              onSwitchAccounts={() => setSwitchModal("accounts")}
+              onSwitchTransAcc={ () => setTransAccModal(true)}
+              goNext={()=> setSteps("review")}
               />
             )}
 
@@ -184,6 +191,7 @@ export default function DepositModal({ open, close, action}: TranOptModalProps) 
                   amount={amount}
                   nameCard={cardContent}
                   currencyAccount={currencySwitchModal}
+                  payeeCurrency={currencyPayee}
                   currency={currency}
                   selectedAccount={selectedAccount}
                   CardOrAcc={selectedCard}

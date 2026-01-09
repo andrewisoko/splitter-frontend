@@ -11,10 +11,12 @@ type StepTwoProps = {
   cardContent: string; 
   currencyContent:string;
   currencyAmount:string;
-    onSwitchCards: ()=>void;
-    onSwitchAccounts: ()=>void;
-    onSwitchTransAcc:()=> void;
-    goNext:()=>void;
+  amountPayee:string;
+  currencyPayee:string;
+  onSwitchCards: ()=>void;
+  onSwitchAccounts: ()=>void;
+  onSwitchTransAcc:()=> void;
+  goNext:()=>void;
 }
 
 export default function StepTwo({
@@ -22,6 +24,8 @@ export default function StepTwo({
   cardContent,
   currencyContent,
   currencyAmount,
+  amountPayee,
+  currencyPayee,
   onSwitchCards,
   onSwitchAccounts,
   onSwitchTransAcc,
@@ -65,6 +69,8 @@ export default function StepTwo({
                   currencyContent={currencyContent}
                 />
               <TransferAccSwitch
+                amountPayee={amountPayee}
+                currencyPayee={currencyPayee}
                 onSwitchAccounts={()=>onSwitchTransAcc()}
                 />
               </>

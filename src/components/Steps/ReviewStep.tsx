@@ -20,6 +20,7 @@ type ReviewStepProps = {
   currency: string;
   nameCard:string;
   currencyAccount:string;
+  payeeCurrency:string;
   selectedAccount: AccountType;
   CardOrAcc: CardType | AccountType;
   action: "deposit" | "withdraw" | "transfer"|null;
@@ -34,6 +35,7 @@ export default function ReviewStep({
   action,
   nameCard,
   currencyAccount,
+  payeeCurrency,
   onConfirm,
 }: ReviewStepProps) {
   const formatAmount = (amount: string) => {
@@ -129,11 +131,11 @@ export default function ReviewStep({
               </div>
             </div>
             )}
-             {getTitle === "Transfer" && "currency" in CardOrAcc && (
+             {getTitle === "Transfer"&& (
             <div className="flex items-center gap-3">
               <div className={`h-8 w-8 rounded-full ${CardOrAcc.color}`}></div>
               <div>
-                <div className="font-medium">{currencyAccount} Account</div>
+                <div className="font-medium">{payeeCurrency} Payee Account</div>
               </div>
             </div>
             )}
