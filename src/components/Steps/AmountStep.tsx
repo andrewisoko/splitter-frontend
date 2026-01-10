@@ -35,7 +35,7 @@ export default function AmountStep({
             <div className="h-full flex flex-col">
                     <div className="flex-1">
                     <p className="font-semibold">Enter amount</p>
-                    <div className="bg-gray-200 flex items-center gap-2 w-full h-[100px] rounded-2xl shadow-lg mb-10">
+                    <div className="bg-gray-200 flex items-center gap-2 w-full h-[70px] rounded-2xl shadow-lg mb-10">
                         <input
                         className="bg-transparent text-[30px] font-semibold outline-none text-center w-full"
                         type="text"
@@ -46,7 +46,7 @@ export default function AmountStep({
                         />
                     </div>
                     <div>
-                        <p className="font-semibold mb-2">Currency</p>
+                        <p className="font-semibold">Currency</p>
                         <div className="bg-gray-200 flex items-center justify-between w-full h-[70px] rounded-2xl shadow-sm px-4 mb-10">
                         <div className="bg-blue-600 h-10 w-10 rounded-full "></div>
                         <span className="font-medium mr-52">{selectedCurrency}</span>
@@ -63,7 +63,7 @@ export default function AmountStep({
                         onClick={() => {
                         goNext();           
                         }}
-                    className="btn-primary rounded-2xl w-full h-[50px] mt-auto"
+                    className="btn-primary rounded-2xl w-full h-[50px]"
                     >
                 continue
                 </button>

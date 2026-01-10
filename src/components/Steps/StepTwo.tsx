@@ -78,7 +78,7 @@ export default function StepTwo({
             </div>
             <button
               onClick={() => goNext()}
-              className="btn-primary rounded-2xl w-full h-[50px] mt-auto"
+              className="btn-primary rounded-2xl w-full h-[50px]"
             >
               continue
             </button>

@@ -135,7 +135,7 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
                 </svg>
               </button>
             )}
-            <h2 className={`text-xl font-semibold ${step === "amount" ? "ml-40" : "mr-10"}`}>
+            <h2 className={`mt-2 mb-2 text-xl font-semibold ${step === "amount" ? "ml-40" : "mr-10"}`}>
               {title}
             </h2>
             <button
@@ -148,7 +148,18 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
 
           {/* Progress bar */}
           <div className="mb-4">
-            <div className="bg-slate-400 h-1 rounded-full w-full"></div>
+            {step === "amount" && (
+              <div className="bg-slate-400 h-1 rounded-full w-full"></div>
+            )}
+            {step === "cards" && (
+              <div className="h-1 rounded-full w-full">
+                  <div className="h-full w-1/2  bg-green-800 float-left"></div>
+                  <div className="h-full w-1/2 bg-slate-400 float-left"></div>
+              </div>
+            )}
+            {step === "review" && (
+              <div className="bg-green-800 h-1 rounded-full w-full"></div>
+            )}
             <div className="flex mt-2 justify-between mb-2">
               <p className="text-sm">Amount</p>
               {(title === "Deposit" || title === "Withdraw")

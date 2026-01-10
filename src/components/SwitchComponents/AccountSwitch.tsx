@@ -11,7 +11,7 @@ export default function AccountSwitch ({onSwitchAccounts,currencyAmount,currency
     return(
         <>
             <div className="flex justify-between">
-                <p className="font-semibold mb-2">Select account</p>
+                <p className="font-semibold mb-1">Select account</p>
                 <button
                     onClick={() => onSwitchAccounts()}
                     className="mr-4 text-blue-500 hover:text-blue-700"
