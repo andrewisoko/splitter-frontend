@@ -1,6 +1,56 @@
 import React from "react";
+import { useState } from "react";
+import api from "../services/api";
 
 export default function SignupPage() {
+
+    const [fullName,setFullName] = useState("");
+    const [userName,setUserName] = useState("");
+    const [email,setEmail] = useState("");
+    const [password,setPassword] = useState("");
+    const [confirmPassword,setconfirmPassword] = useState("");
+    const [phoneNumber,setPhoneNumber] = useState<number>()
+
+    
+    const handleSubmit = (event:any) =>{
+        event.preventDefault()
+
+         api.post("auth/register",{
+            fullName:fullName,
+            userName:userName,
+            email:email,
+            number:phoneNumber,
+            password:password,
+            confirmPassword:confirmPassword
+        })
+
+    }
+
+    const handleFullName = (event:any) =>{
+        setFullName(event.target.value)
+        console.log(`data ${fullName}`)
+    }
+    const handleUserName = (event:any) =>{
+        setUserName(event.target.value)
+        console.log(`data ${userName}`)
+    }
+    const handleEmail = (event:any) =>{
+        setEmail(event.target.value)
+        console.log(`data ${email}`)
+    }
+    const handlePassword = (event:any) =>{
+        setPassword(event.target.value)
+        console.log(`data ${password}`)
+    }
+    const handleConfirmPassword = (event:any) =>{
+        setconfirmPassword(event.target.value)
+        console.log(`data ${confirmPassword}`)
+    }
+    const handleNumber = (event:any) =>{
+        setPhoneNumber(event.target.value)
+        console.log(`data ${phoneNumber}`)
+    }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center px-4">
       {/* Card container */}
@@ -22,7 +72,7 @@ export default function SignupPage() {
         </div>
 
         {/* Signup form */}
-        <form action="/signup" method="post" className="space-y-4">
+        <form onSubmit={handleSubmit}  action="/signup" method="post" className="space-y-4">
           {/* Full name field */}
           <div>
             <label
@@ -37,7 +87,9 @@ export default function SignupPage() {
               type="text"
               required
               autoComplete="name"
-              placeholder="Jane Doe"
+              placeholder="Joe Smith"
+              value={fullName}
+              onChange={handleFullName}
               className="mt-1 block w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
             />
           </div>
@@ -56,7 +108,9 @@ export default function SignupPage() {
               type="text"
               required
               autoComplete="username"
-              placeholder="janedoe"
+              placeholder="username"
+              value={userName}
+              onChange={handleUserName}
               className="mt-1 block w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
             />
           </div>
@@ -76,6 +130,8 @@ export default function SignupPage() {
               required
               autoComplete="email"
               placeholder="you@example.com"
+              value={email}
+              onChange={handleEmail}
               className="mt-1 block w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
             />
           </div>
@@ -95,6 +151,8 @@ export default function SignupPage() {
               required
               autoComplete="tel"
               placeholder="+44 7700 900123"
+              value={phoneNumber}
+              onChange={handleNumber}
               className="mt-1 block w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
             />
           </div>
@@ -114,6 +172,28 @@ export default function SignupPage() {
               required
               autoComplete="new-password"
               placeholder="Enter a strong password"
+              value={password}
+              onChange={handlePassword}
+              className="mt-1 block w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-slate-700"
+            >
+            Confirm Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              autoComplete="new-password"
+              placeholder="Enter a strong password"
+              value={confirmPassword}
+              onChange={handleConfirmPassword}
               className="mt-1 block w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
             />
           </div>
