@@ -4,52 +4,51 @@ import api from "../services/api";
 
 export default function SignupPage() {
 
-    const [fullName,setFullName] = useState("");
-    const [userName,setUserName] = useState("");
-    const [email,setEmail] = useState("");
-    const [password,setPassword] = useState("");
-    const [confirmPassword,setconfirmPassword] = useState("");
-    const [phoneNumber,setPhoneNumber] = useState<number>()
+
+  const [registerValues,setRegisterValues] = useState({
+      fullName:"",
+      userName:"",
+      email:"",
+      number:"",
+      password:"",
+      confirmPassword:""
+
+    })
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    
+    setRegisterValues(prev => ({
+        ...prev,
+        [name]: value
+    }));
+};
+
 
     
-    const handleSubmit = (event:any) =>{
-        event.preventDefault()
+const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-         api.post("auth/register",{
-            fullName:fullName,
-            userName:userName,
-            email:email,
-            number:phoneNumber,
-            password:password,
-            confirmPassword:confirmPassword
-        })
-
+    if (registerValues.confirmPassword !== registerValues.password) {
+      alert("Password don't match!")
+      return;
     }
 
-    const handleFullName = (event:any) =>{
-        setFullName(event.target.value)
-        console.log(`data ${fullName}`)
-    }
-    const handleUserName = (event:any) =>{
-        setUserName(event.target.value)
-        console.log(`data ${userName}`)
-    }
-    const handleEmail = (event:any) =>{
-        setEmail(event.target.value)
-        console.log(`data ${email}`)
-    }
-    const handlePassword = (event:any) =>{
-        setPassword(event.target.value)
-        console.log(`data ${password}`)
-    }
-    const handleConfirmPassword = (event:any) =>{
-        setconfirmPassword(event.target.value)
-        console.log(`data ${confirmPassword}`)
-    }
-    const handleNumber = (event:any) =>{
-        setPhoneNumber(event.target.value)
-        console.log(`data ${phoneNumber}`)
-    }
+    if (!registerValues.email.includes('@')) {
+    alert("Invalid email!");
+    return;
+  }
+
+    await api.post("auth/register", {
+        fullName: registerValues.fullName,
+        userName: registerValues.userName,
+        email: registerValues.email,
+        number: registerValues.number,
+        password: registerValues.password,
+        confirmPassword:registerValues.confirmPassword
+    });
+};
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center px-4">
@@ -83,13 +82,13 @@ export default function SignupPage() {
             </label>
             <input
               id="full_name"
-              name="full_name"
+              name="fullName"
               type="text"
               required
               autoComplete="name"
               placeholder="Joe Smith"
-              value={fullName}
-              onChange={handleFullName}
+              value={registerValues.fullName}
+              onChange={handleInputChange}
               className="mt-1 block w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
             />
           </div>
@@ -104,13 +103,13 @@ export default function SignupPage() {
             </label>
             <input
               id="username"
-              name="username"
+              name="userName"
               type="text"
               required
               autoComplete="username"
               placeholder="username"
-              value={userName}
-              onChange={handleUserName}
+              value={registerValues.userName}
+              onChange={handleInputChange}
               className="mt-1 block w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
             />
           </div>
@@ -130,8 +129,8 @@ export default function SignupPage() {
               required
               autoComplete="email"
               placeholder="you@example.com"
-              value={email}
-              onChange={handleEmail}
+              value={registerValues.email}
+              onChange={handleInputChange}
               className="mt-1 block w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
             />
           </div>
@@ -146,13 +145,13 @@ export default function SignupPage() {
             </label>
             <input
               id="phone"
-              name="phone"
+              name="number"
               type="tel"
               required
               autoComplete="tel"
               placeholder="+44 7700 900123"
-              value={phoneNumber}
-              onChange={handleNumber}
+              value={registerValues.number}
+              onChange={handleInputChange}
               className="mt-1 block w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
             />
           </div>
@@ -172,8 +171,8 @@ export default function SignupPage() {
               required
               autoComplete="new-password"
               placeholder="Enter a strong password"
-              value={password}
-              onChange={handlePassword}
+              value={registerValues.password}
+              onChange={handleInputChange}
               className="mt-1 block w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
             />
           </div>
@@ -187,13 +186,13 @@ export default function SignupPage() {
             </label>
             <input
               id="password"
-              name="password"
+              name="confirmPassword"
               type="password"
               required
               autoComplete="new-password"
               placeholder="Enter a strong password"
-              value={confirmPassword}
-              onChange={handleConfirmPassword}
+              value={registerValues.confirmPassword}
+              onChange={handleInputChange}
               className="mt-1 block w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
             />
           </div>
@@ -206,6 +205,7 @@ export default function SignupPage() {
             Sign up
           </button>
         </form>
+        {/* {registerValues.password !== registerValues.confirmPassword &&(<p className="mt-3 ml-28 text-red-600">Passwords not matching</p>)} */}
 
         {/* Alternative auth options */}
         <div className="mt-6">
