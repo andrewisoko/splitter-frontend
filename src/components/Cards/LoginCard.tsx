@@ -8,12 +8,12 @@ const LoginCard = () => {
         </h1>
         <p className="text-center text-sm text-gray-600 mb-6">
           New to SplitBill?{" "}
-          <button
+          <a href="http://localhost:3000/signup"
             type="button"
             className="text-blue-800 font-medium hover:underline"
           >
             Sign up
-          </button>
+          </a>
         </p>
 
         {/* Form */}
