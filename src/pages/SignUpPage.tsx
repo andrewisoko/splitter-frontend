@@ -4,7 +4,6 @@ import api from "../services/api";
 
 export default function SignupPage() {
 
-  const [dataValidated,setDataValidated] = useState(false)
   const [registerValues,setRegisterValues] = useState({
       fullName:"",
       userName:"",
@@ -38,7 +37,6 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     alert("Invalid email!");
     return;
   }
-    setDataValidated(true);
 
     await api.post("auth/register", {
         fullName: registerValues.fullName,
@@ -206,7 +204,7 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
             Sign up
           </button>
         </form>
-        {/* {registerValues.password !== registerValues.confirmPassword &&(<p className="mt-3 ml-28 text-red-600">Passwords not matching</p>)} */}
+       
 
         {/* Alternative auth options */}
         <div className="mt-6">

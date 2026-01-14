@@ -1,4 +1,38 @@
+import React from "react";
+import { useState } from "react";
+import api from "../../services/api";
+
+
 const LoginCard = () => {
+
+  const[loginValues,setLoginValues] = useState({
+    email:"",
+    password:"",
+  })
+    
+  const handleLoginValues = (event:React.ChangeEvent<HTMLInputElement>) =>{
+    const {name,value} = event.target 
+    setLoginValues(prev => ({
+      ...prev,
+      [name]:value
+    }))
+  }
+
+  const handleSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    if (!loginValues.email.includes("@")){
+      alert("Invalid Email")
+      return;
+    }
+
+    
+    console.log(loginValues.email,loginValues.password)
+    await api.post("auth/login",{
+      email:loginValues.email,
+      password:loginValues.password
+    }).then(()=> window.location.href="http://localhost:3000/home")
+  }
 
     return(
         <div className="w-full max-w-md bg-white rounded-2xl shadow-md p-8">
@@ -17,7 +51,7 @@ const LoginCard = () => {
         </p>
 
         {/* Form */}
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} action="/login" method="post" className="space-y-4">
           <div>
             <label
               htmlFor="email"
@@ -26,10 +60,13 @@ const LoginCard = () => {
               Your email address
             </label>
             <input
+              name="email"
               id="email"
               type="email"
               className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black-500 focus:border-black-500"
               placeholder="you@example.com"
+              value={loginValues.email}
+              onChange={handleLoginValues}
             />
           </div>
 
@@ -42,10 +79,13 @@ const LoginCard = () => {
               Your password
             </label>
             <input
+              name="password"
               id="password"
               type="password"
               className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black-500 focus:border-black-500"
               placeholder="Enter your password"
+              value={loginValues.password}
+               onChange={handleLoginValues}
             />
           </div>
 
