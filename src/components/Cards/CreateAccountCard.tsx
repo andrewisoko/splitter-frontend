@@ -1,9 +1,31 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import api from "../../services/api";
+
 
 
 const CreateAccountCard = () =>{
 
-    const [newAccountForm,setAccountForm] = useState(false)
+    const [amount,setAmount] = useState<string>("");
+    const [currency,setCurrency] = useState<"GBP"|"USD"|"EUR">("GBP")
+    const [newAccountForm,setAccountForm] = useState(false);
+
+    const handleAmountChange = (e: any) => {
+        const value = e.target.value;
+        const numeric = value.replace(/\D/g, "");
+        setAmount(numeric);
+     };
+
+    const handleOnSubmit = async (event:any) => {
+        event.preventDefault()
+        await api.post("accounts/create",{
+            currency:currency,
+            initialDeposit:amount
+        }
+        )
+        console.log("account created!")  
+    }
+
+
     return(
     <>
         {newAccountForm &&(
@@ -16,7 +38,11 @@ const CreateAccountCard = () =>{
                 New Account
                 </h2>
 
-                <form className="space-y-4">
+                <form
+                    action = "create"
+                    method="post"
+                    className="space-y-4"
+                 >
                 {/* Amount field */}
                 <div>
                     <label
@@ -27,11 +53,12 @@ const CreateAccountCard = () =>{
                     </label>
                     <input
                     id="amount"
-                    type="number"
-                    min="0"
-                    step="0.01"
+                    type="text"
+                    inputMode="decimal"
                     className="block w-full rounded-xl border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
                     placeholder="0.00"
+                    value={amount}
+                    onChange={handleAmountChange}
                     />
                 </div>
 
@@ -44,12 +71,13 @@ const CreateAccountCard = () =>{
                     Currency
                     </label>
                     <select
+
                     id="currency"
                     className="block w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
                     >
-                    <option value="GBP">GBP</option>
-                    <option value="EUR">EUR</option>
-                    <option value="USD">USD</option>
+                    <option onClick={()=>setCurrency("GBP")} value="GBP">GBP</option>
+                    <option onClick={()=>setCurrency("EUR")} value="EUR">EUR</option>
+                    <option onClick={()=>setCurrency("USD")} value="USD">USD</option>
                     </select>
                 </div>
 
@@ -63,6 +91,7 @@ const CreateAccountCard = () =>{
                     Cancel
                     </button>
                     <button
+                    onClick={handleOnSubmit}
                     type="submit"
                     className="rounded-full bg-purple-700 px-5 py-2 text-sm font-semibold text-white shadow hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500/60"
                     >
