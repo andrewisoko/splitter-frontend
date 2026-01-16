@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import api from "../../services/api";
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginCard = () => {
@@ -26,12 +27,21 @@ const LoginCard = () => {
       return;
     }
 
-    
-    console.log(loginValues.email,loginValues.password)
-    await api.post("auth/login",{
+    try {
+      const navigate = useNavigate()
+      const response = await api.post("auth/login",{
       email:loginValues.email,
       password:loginValues.password
-    }).then(()=> window.location.href="http://localhost:3000/home")
+      });
+
+      const { access_token } = response.data;
+      localStorage.setItem("accessToken", access_token);
+
+      navigate('/home')
+
+    } catch (error) {
+      console.log(`error: ${error}`)
+    }
   }
 
     return(
