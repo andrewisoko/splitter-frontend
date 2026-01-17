@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import api from "../../services/api";
 
 
@@ -7,7 +7,15 @@ const CreateAccountCard = () =>{
 
     const [amount,setAmount] = useState<string>("");
     const [currency,setCurrency] = useState<"GBP"|"USD"|"EUR">("GBP")
-    const [newAccountForm,setAccountForm] = useState(false);
+    const [newAccountForm,setNewAccountForm] = useState(false);
+
+    useEffect (()=>{
+        if(!newAccountForm){
+            setAmount("")
+            setCurrency("GBP")
+        }
+    },[newAccountForm])
+
 
     const handleAmountChange = (e: any) => {
         const value = e.target.value;
@@ -23,6 +31,7 @@ const CreateAccountCard = () =>{
         }
         )
         console.log("account created!")  
+        setNewAccountForm(false)
     }
 
 
@@ -84,7 +93,7 @@ const CreateAccountCard = () =>{
                 {/* Modal actions */}
                 <div className="mt-6 flex justify-end gap-3">
                     <button
-                    onClick={()=>setAccountForm(false)}
+                    onClick={()=>setNewAccountForm(false)}
                     type="button"
                     className="rounded-full px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
                     >
@@ -107,7 +116,7 @@ const CreateAccountCard = () =>{
         <div className="h-[200px] w-1/2 md:w-[230px] bg-gray-100 rounded-2xl shadow-sm flex flex-col justify-between px-4 py-4">
             <p className=" text-[15 px] font-semibold self-start">+100 currencies available.</p>
             <div className="flex items-center">
-                <button onClick={()=>setAccountForm(true)} className="h-12 w-12 rounded-full bg-gray-300">
+                <button onClick={()=>setNewAccountForm(true)} className="h-12 w-12 rounded-full bg-gray-300">
                     <span className="text-2xl leading-none">+</span>
                 </button>
                 <p className="ml-2 mb-1 font-semibold">Add New</p>

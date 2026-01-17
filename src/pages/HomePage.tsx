@@ -5,10 +5,27 @@ import Nav from "../components/Nav";
 import BurgerBtn from "../components/Buttons/BurgerBtn";
 import UsernameAvatar from "../components/UsernameAvatar";
 import TransactionOptionsBtn from "../components/Buttons/TransactionOptionsBtn";
+import { useAuth } from "../components/contexts/AuthContext";
+import { Navigate } from "react-router-dom";
 
+interface User {
+  token: string;
+}
+
+type UseAuthTypes = {
+  user: User | null;
+  loading: boolean;
+  login: (token: string) => void;
+  logout: () => void;
+}
 
 
 const HomePage = () => {
+
+  const {user, loading}:UseAuthTypes = useAuth();
+
+  if (loading) return <div>Loading...</div>;
+  if (!user) return <Navigate to="/login" />;
 
   return <div className="lg:grid lg:grid-cols-[25%_75%] gap-4" >
     <Nav/>

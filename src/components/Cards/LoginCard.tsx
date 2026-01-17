@@ -2,14 +2,19 @@ import React from "react";
 import { useState } from "react";
 import api from "../../services/api";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../contexts/AuthContext";
 
 
 const LoginCard = () => {
+
+  const navigate = useNavigate()
+  const { login } = useAuth();
 
   const[loginValues,setLoginValues] = useState({
     email:"",
     password:"",
   })
+
     
   const handleLoginValues = (event:React.ChangeEvent<HTMLInputElement>) =>{
     const {name,value} = event.target 
@@ -28,16 +33,14 @@ const LoginCard = () => {
     }
 
     try {
-      const navigate = useNavigate()
+
       const response = await api.post("auth/login",{
       email:loginValues.email,
       password:loginValues.password
       });
 
-      const { access_token } = response.data;
-      localStorage.setItem("accessToken", access_token);
-
-      navigate('/home')
+      login(response.data.access_token); 
+      navigate('/home');
 
     } catch (error) {
       console.log(`error: ${error}`)
