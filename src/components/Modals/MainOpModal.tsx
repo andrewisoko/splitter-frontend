@@ -4,6 +4,7 @@ import SwitchModal from "./SwitchModal";
 import ReviewStep from "../Steps/ReviewStep";
 import StepTwo from "../Steps/StepTwo";
 import PayeeModal from "./PayeeModal";
+import api from "../../services/api";
 
 
 type TranOptModalProps = {
@@ -22,6 +23,8 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
       : action === "withdraw"
       ? "Withdraw"
       : "Transfer";
+
+ /*------------------------------UseState--------------------------------------------- */
 
   const [amount, setAmount] = useState<string>("");
   const [amountSwitchModal, setAmountModal] = useState<string>("0.00");
@@ -56,6 +59,7 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
     }
   }, [open]);
 
+  /*------------------------------Handlers--------------------------------------------- */
   
   const handleConfirmTransaction = () => {
     console.log("Transaction confirmed:", {
@@ -77,6 +81,24 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
     }
   };
 
+/*-------------------------------------api------------------------------------------------- */
+
+const  handleDeposit = async () => {
+  try {
+    
+    await api.post("/transactions/deposit",{
+      amount:amount,
+      currency:currency
+    })
+  } catch (error) {
+
+    console.log(`error during deposit respponse:${error}`)
+    
+  }
+}
+
+/*------------------------------other functions--------------------------------------------- */
+
 
   const formatAmount = (amount: string) => {
     if (!amount) return "0.00";
@@ -86,6 +108,7 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
       maximumFractionDigits: 2,
     });
   };
+
 
   if (!open) return null;
 
@@ -173,11 +196,13 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
           {/* Content Area - This is where the step content goes */}
           <div className="flex-1 overflow-hidden">
             {step === "amount" && (
-                 <AmountStep
+               <AmountStep
                 action={action}
                 amount={amount}
                 setAmount={setAmount}
-                goNext={() => setSteps("cards")}
+                currency={currency}
+                setCurrency={setCurrency}
+                goNext={()=>setSteps("cards")}
               />
             )}
 
