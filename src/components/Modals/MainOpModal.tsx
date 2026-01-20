@@ -37,9 +37,9 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
   const [currencyPayee, setCurrencyPayee] = useState<string>("GBP");
    const [cardContent, setCardContent] = useState("Main card •••• 1234");
   const [selectedAccount, setSelectedAccount] = useState({
-    id: "1",
-    balance: 1250.75,
-    currency:"Default",
+    id: "",
+    balance:"",
+    currency:"",
     color: "bg-blue-500",
   });
   const [selectedCard, setSelectedCard] = useState({
@@ -61,16 +61,16 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
 
   /*------------------------------Handlers--------------------------------------------- */
   
-  const handleConfirmTransaction = () => {
-    console.log("Transaction confirmed:", {
-      action,
-      amount: formatAmount(amount),
-      currency,
-      fromCard: selectedCard,
-      toAccount: selectedAccount,
-    });
-    close();
-  };
+  // const handleConfirmTransaction = () => {
+  //   console.log("Transaction confirmed:", {
+  //     action,
+  //     amount: formatAmount(amount),
+  //     currency,
+  //     fromCard: selectedCard,
+  //     toAccount: selectedAccount,
+  //   });
+  //   close();
+  // };
 
 
   const handleBack = () => {
@@ -83,13 +83,25 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
 
 /*-------------------------------------api------------------------------------------------- */
 
-const  handleDeposit = async () => {
+const  handleResponse = async () => {
   try {
-    
-    await api.post("/transactions/deposit",{
-      amount:amount,
-      currency:currency
-    })
+    if (title === "Deposit"){
+
+      await api.post("/transactions/deposit",{
+        amount:amount,
+        currency:currency
+      })
+    }
+    else if (title === "Withdraw"){
+      await api.post("/transactions/withdraw",{
+        amount:amount,
+        currency:currency
+      })
+
+    }
+    else{
+
+    }
   } catch (error) {
 
     console.log(`error during deposit respponse:${error}`)
