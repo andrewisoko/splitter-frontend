@@ -14,6 +14,13 @@ type TranOptModalProps = {
  
 };
 
+interface AccountProps {
+    id:string,
+    balance:string,
+    currency:string,
+    color: "bg-blue-500",
+}
+
 export default function MainOpModal({ open, close, action}: TranOptModalProps) {
 
   
@@ -27,7 +34,9 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
  /*------------------------------UseState--------------------------------------------- */
 
   const [amount, setAmount] = useState<string>("");
-  const [amountSwitchModal, setAmountModal] = useState<string>("0.00");
+  const [balanceAccountA, setbalanceAccountA] = useState<string>("0.00");
+  const [accounts,setAccounts] = useState<AccountProps[]>([]);
+  const [loading, setLoading] = useState(true);
   const [amountPayee, setAmountPayee] = useState<string>("0.00");
   const [switchModal, setSwitchModal] = useState<"cards" | "accounts" | null>(null);
   const [transAccModal,setTransAccModal] = useState(false)
@@ -35,13 +44,20 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
   const [currency, setCurrency] = useState<string>("GBP");
   const [currencySwitchModal, setCurrencySwitchModal] = useState<string>("USD");
   const [currencyPayee, setCurrencyPayee] = useState<string>("GBP");
-   const [cardContent, setCardContent] = useState("Main card •••• 1234");
-  const [selectedAccount, setSelectedAccount] = useState({
-    id: "",
+  const [cardContent, setCardContent] = useState("Main card •••• 1234");
+  const [selectedAccount, setSelectedAccount] = useState<AccountProps>({
+    id:"",
     balance:"",
     currency:"",
-    color: "bg-blue-500",
-  });
+    color: "bg-blue-500"
+  })
+
+  // const [selectedAccount, setSelectedAccount] = useState({
+  //   id: "",
+  //   balance:"",
+  //   currency:"",
+  //   color: "bg-blue-500",
+  // });
   const [selectedCard, setSelectedCard] = useState({
     id: "1",
     lastFour: "1234",
@@ -109,6 +125,21 @@ const  handleResponse = async () => {
   }
 }
 
+  useEffect(()=>{
+      const fetchAccounts = async () => {
+          try {
+              setLoading(true)
+              const response = await api.get("/accounts/find-all-accounts")
+              setAccounts(response.data)
+          } catch (error) {
+              console.log(`error:${error}`)
+          }finally{
+              setLoading(false)
+          }
+      };
+      fetchAccounts()
+  },[])
+
 /*------------------------------other functions--------------------------------------------- */
 
 
@@ -127,14 +158,17 @@ const  handleResponse = async () => {
   return (
     <>
       <SwitchModal 
-        open={switchModal} 
-        amount={amountSwitchModal}
+        open={switchModal}
         close={() => setSwitchModal(null)}
+
         onSelectCard={(value) => {
           setCardContent(value);   
         }}
         onSelectCurrency={(value) => {
           setCurrencySwitchModal(value);   
+        }}
+         onSelectBalance = {(value) => {
+          setbalanceAccountA(value);   
         }}
       />
       <PayeeModal
@@ -223,7 +257,7 @@ const  handleResponse = async () => {
               title={title}
               cardContent={cardContent}
               currencyContent={currencySwitchModal}
-              currencyAmount={amountSwitchModal}
+              currencyAmount={balanceAccountA}
               amountPayee={amountPayee}
               currencyPayee={currencyPayee}
               onSwitchCards={() => setSwitchModal("cards")}

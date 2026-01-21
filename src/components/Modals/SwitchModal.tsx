@@ -1,34 +1,65 @@
 import { useState,useEffect } from "react";
+import api from "../../services/api";
+
+
 type OpCls = {
     open: "cards" | "accounts"| null;
-    amount:string;
     close: () => void; 
+    onSelectBalance:(balance:string) => void
     onSelectCard: (content:string) => void
     onSelectCurrency: (content:string) => void
 }
 
-export default function SwitchModal({open,amount,close,onSelectCard,onSelectCurrency}:OpCls){
-    const [cardDetails,setCardDetails]= useState(false)
-    const [selectcard,setSelectCard] = useState<string|null>(null)
-    const [selectCurrency,setSelectCurrency] = useState<string|null>(null)
+// interface AccountProps {
+//     id:number,
+//     balance:string,
+//     currency:string,
+// }
+
+export default function SwitchModal({open,onSelectBalance,close,onSelectCard,onSelectCurrency}:OpCls){
+    const [cardDetails,setCardDetails]= useState(false);
+    const [selectcard,setSelectCard] = useState<string|null>(null);
+    // const [accounts,setAccounts] = useState<AccountProps[]>([]);
+    // const [loading, setLoading] = useState(true);
+    const [selectCurrency,setSelectCurrency] = useState<string|null>(null);
     
+/*---------------------------------------handlers---------------------------------------------------------*/
+
 
     const handleSelectCard = (content:string) =>{
-        setSelectCard(content)
-        onSelectCard(content)
+        setSelectCard(content);
+        onSelectCard(content);
         close()
         }
-    const handleSelectCurrency = (content:string) => {
-        setSelectCurrency(content)
-        onSelectCurrency(content)
+    const handleSelectAccount = (content:string,balance:string) => {
+        setSelectCurrency(content);
+        onSelectCurrency(content);
+        onSelectBalance(balance)
+
         close()
     }
 
+/*---------------------------------------useEffect---------------------------------------------------------*/
     useEffect(()=>{
         if(!open){
             setCardDetails(false)
         }
     },[open])
+
+    // useEffect(()=>{
+    //     const fetchAccounts = async () => {
+    //         try {
+    //             setLoading(true)
+    //             const response = await api.get("/accounts/find-all-accounts")
+    //             setAccounts(response.data)
+    //         } catch (error) {
+    //             console.log(`error:${error}`)
+    //         }finally{
+    //             setLoading(false)
+    //         }
+    //     };
+    //     fetchAccounts()
+    // },[])
 
     if (!open) return null;
 
@@ -171,59 +202,45 @@ export default function SwitchModal({open,amount,close,onSelectCard,onSelectCurr
                             }`}>
                             <span className="ml-5 font-medium">Third card •••• 1234</span>
                         </div>
-                        {/* <div 
-                            onClick={()=>setSelect("Fourth card")}
-                            className={`bg-gray-400 rounded-2xl h-20 w-full flex justify-between items-center mb-4 hover:cursor-pointer${
-                                select === "Fourth card" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
-                            }`}>
-                            <span className="ml-5 font-medium">Fourth card •••• 1234</span>
-                        </div> */}
-                        
                     </>
                     )}
                 </div>
                 </>
                 )}
-                { open === "accounts" &&(
-                    <>
-                     <div className="flex items-center justify-between mb-12">
-                        <h1 className="text-lg text-white">Select Accounts</h1>
-                        <button
-                            onClick={close}
-                            className="text-gray-500 font-bold hover:text-gray-700 text-xl leading-none"
-                            >
-                            ×
-                            </button>
-                        </div>
-                        <div 
-                            onClick={()=>handleSelectCurrency("GBP")}
-                            className={`bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer${
-                                selectCurrency === "GBP" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
-                            }`}>
-                            <p className="ml-7 mt-5 font-semibold text-[20px]">{amount}</p>
-                                <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
-                                <p className="mt-5 font-semibold text-sm">GBP</p>
-                        </div>
-                        <div 
-                            onClick={()=>handleSelectCurrency("EUR")}
-                            className={`bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer${
-                                selectCurrency === "EUR" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
-                            }`}>
-                            <p className="ml-7 mt-5 font-semibold text-[20px]">{amount}</p>
-                                <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
-                                <p className="mt-5 font-semibold text-sm">EUR</p>
-                        </div>
-                        <div 
-                            onClick={()=>handleSelectCurrency("USD")}
-                            className={`bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer${
-                                selectCurrency === "USD" && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
-                            }`}>
-                            <p className="ml-7 mt-5 font-semibold text-[20px]">{amount}</p>
-                                <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
-                                <p className="mt-5 font-semibold text-sm">USD</p>
-                        </div>
-                    </>
-                )}
+                { open === "accounts" && (
+                        <>
+                         <div className="flex items-center justify-between mb-12">
+                            <h1 className="text-lg text-white">Select Accounts</h1>
+                            <button
+                                onClick={close}
+                                className="text-gray-500 font-bold hover:text-gray-700 text-xl leading-none"
+                                >
+                                ×
+                                </button>
+                            </div>
+                            {loading?(
+                                <div>Loading accounts...</div>
+                                ): accounts.length > 0 ?(
+                                    accounts.map((account: AccountProps, index: number) => (
+                                         <div 
+                                            key={index}
+                                            onClick={()=>handleSelectAccount(account.currency,account.balance)}
+                                            className={`bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer${
+                                                selectCurrency === account.currency && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
+                                            }`}>
+                                            <p className="ml-7 mt-5 font-semibold text-[20px]">{account.balance}</p>
+                                                <div className="ml-60 mt-2 h-10 w-10 rounded-full bg-blue-500"></div>
+                                                <p className="mt-5 font-semibold text-sm">{account.currency}</p>
+                                        </div>
+                                    ))
+                                ):(
+                                    <div className="text-white">No accounts found</div>
+                                )
+                            }
+                        </>
+
+                    )
+                }
             </div>
         </div>   
     )
