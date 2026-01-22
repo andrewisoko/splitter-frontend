@@ -15,7 +15,7 @@ type TranOptModalProps = {
 };
 
 interface AccountProps {
-    id:string,
+    id:number,
     balance:string,
     currency:string,
     color: "bg-blue-500",
@@ -46,7 +46,7 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
   const [currencyPayee, setCurrencyPayee] = useState<string>("GBP");
   const [cardContent, setCardContent] = useState("Main card •••• 1234");
   const [selectedAccount, setSelectedAccount] = useState<AccountProps>({
-    id:"",
+    id:0,
     balance:"",
     currency:"",
     color: "bg-blue-500"
@@ -101,10 +101,12 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
 
 const  handleResponse = async () => {
   try {
+    const numAmount = Number(amount)
     if (title === "Deposit"){
 
       await api.post("/transactions/deposit",{
-        amount:amount,
+        AccountId:selectedAccount.id,
+        deposit:numAmount,
         currency:currency
       })
     }
@@ -115,13 +117,8 @@ const  handleResponse = async () => {
       })
 
     }
-    else{
-
-    }
   } catch (error) {
-
     console.log(`error during deposit respponse:${error}`)
-    
   }
 }
 
@@ -159,17 +156,23 @@ const  handleResponse = async () => {
     <>
       <SwitchModal 
         open={switchModal}
+        accounts={accounts}
+        loading={loading}
+        onSelectBalance = {(value) => {
+          setbalanceAccountA(value);   
+        }}
         close={() => setSwitchModal(null)}
-
         onSelectCard={(value) => {
           setCardContent(value);   
         }}
+        onSelectAccountId={(id) =>
+          setSelectedAccount((prev) => ({ ...prev, id }))
+        }
         onSelectCurrency={(value) => {
           setCurrencySwitchModal(value);   
         }}
-         onSelectBalance = {(value) => {
-          setbalanceAccountA(value);   
-        }}
+        setAccounts={()=>setAccounts(accounts)}
+        setLoading={()=>setLoading(true)}
       />
       <PayeeModal
         open={transAccModal}
@@ -278,7 +281,7 @@ const  handleResponse = async () => {
                   selectedAccount={selectedAccount}
                   CardOrAcc={selectedCard}
                   action={action}
-                  onConfirm={handleConfirmTransaction}
+                  onConfirm={handleResponse}
                 />
               </div>
             )}

@@ -1,22 +1,39 @@
 import { useState,useEffect } from "react";
 import api from "../../services/api";
 
+interface AccountProps {
+    id:number,
+    balance:string,
+    currency:string,
+}
 
 type OpCls = {
     open: "cards" | "accounts"| null;
+    accounts:AccountProps[];
+    loading:boolean;
     close: () => void; 
-    onSelectBalance:(balance:string) => void
-    onSelectCard: (content:string) => void
-    onSelectCurrency: (content:string) => void
+    onSelectBalance:(balance:string) => void;
+    onSelectCard: (content:string) => void;
+    onSelectCurrency: (content:string) => void;
+    onSelectAccountId: (id: number) => void;
+    setAccounts:([]) => void;
+    setLoading:() => void;
 }
 
-// interface AccountProps {
-//     id:number,
-//     balance:string,
-//     currency:string,
-// }
 
-export default function SwitchModal({open,onSelectBalance,close,onSelectCard,onSelectCurrency}:OpCls){
+export default function SwitchModal(
+    {
+    open,
+    accounts,
+    loading,
+    onSelectBalance,
+    close,
+    onSelectCard,
+    onSelectCurrency,
+    setAccounts,
+    setLoading,
+    onSelectAccountId
+}:OpCls){
     const [cardDetails,setCardDetails]= useState(false);
     const [selectcard,setSelectCard] = useState<string|null>(null);
     // const [accounts,setAccounts] = useState<AccountProps[]>([]);
@@ -31,9 +48,10 @@ export default function SwitchModal({open,onSelectBalance,close,onSelectCard,onS
         onSelectCard(content);
         close()
         }
-    const handleSelectAccount = (content:string,balance:string) => {
+    const handleSelectAccount = (id:number,content:string,balance:string) => {
         setSelectCurrency(content);
         onSelectCurrency(content);
+        onSelectAccountId(id); 
         onSelectBalance(balance)
 
         close()
@@ -221,10 +239,10 @@ export default function SwitchModal({open,onSelectBalance,close,onSelectCard,onS
                             {loading?(
                                 <div>Loading accounts...</div>
                                 ): accounts.length > 0 ?(
-                                    accounts.map((account: AccountProps, index: number) => (
+                                    accounts.map((account:AccountProps, index: number) => (
                                          <div 
                                             key={index}
-                                            onClick={()=>handleSelectAccount(account.currency,account.balance)}
+                                            onClick={()=>handleSelectAccount(account.id,account.currency,account.balance)}
                                             className={`bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer${
                                                 selectCurrency === account.currency && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
                                             }`}>
