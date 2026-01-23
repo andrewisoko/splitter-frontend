@@ -3,7 +3,7 @@ import React from "react";
 
 type AccountType = {
 
-  id: number;
+  accountID: number;
   balance: string;
   color: string;
   currency:string /*fix logic mess later on*/

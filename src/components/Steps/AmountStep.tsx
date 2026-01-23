@@ -28,6 +28,15 @@ export default function AmountStep({
         setAmount(numeric);
      };
 
+    const formatAmount = (amount: string) => {
+        if (!amount) return "0.00";
+        const num = parseFloat(amount) / 100;
+        return num.toLocaleString("en-GB", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+        });
+    };
+
 
     return (
         <>
@@ -45,7 +54,7 @@ export default function AmountStep({
                         type="text"
                         inputMode="decimal"
                         placeholder="0.00"
-                        value={amount}
+                        value={formatAmount(amount)}
                         onChange={handleAmountChange}
                         />
                     </div>

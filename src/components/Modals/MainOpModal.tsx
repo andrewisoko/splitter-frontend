@@ -15,7 +15,7 @@ type TranOptModalProps = {
 };
 
 interface AccountProps {
-    id:number,
+    accountID:number,
     balance:string,
     currency:string,
     color: "bg-blue-500",
@@ -46,18 +46,12 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
   const [currencyPayee, setCurrencyPayee] = useState<string>("GBP");
   const [cardContent, setCardContent] = useState("Main card •••• 1234");
   const [selectedAccount, setSelectedAccount] = useState<AccountProps>({
-    id:0,
+    accountID:0,
     balance:"",
     currency:"",
     color: "bg-blue-500"
   })
 
-  // const [selectedAccount, setSelectedAccount] = useState({
-  //   id: "",
-  //   balance:"",
-  //   currency:"",
-  //   color: "bg-blue-500",
-  // });
   const [selectedCard, setSelectedCard] = useState({
     id: "1",
     lastFour: "1234",
@@ -77,16 +71,6 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
 
   /*------------------------------Handlers--------------------------------------------- */
   
-  // const handleConfirmTransaction = () => {
-  //   console.log("Transaction confirmed:", {
-  //     action,
-  //     amount: formatAmount(amount),
-  //     currency,
-  //     fromCard: selectedCard,
-  //     toAccount: selectedAccount,
-  //   });
-  //   close();
-  // };
 
 
   const handleBack = () => {
@@ -105,21 +89,24 @@ const  handleResponse = async () => {
     if (title === "Deposit"){
 
       await api.post("/transactions/deposit",{
-        AccountId:selectedAccount.id,
+        accountId:selectedAccount.accountID,
         deposit:numAmount,
         currency:currency
       })
+      console.log(`Deposit succesfull ${selectedAccount.accountID},${numAmount},${currency}`)
     }
     else if (title === "Withdraw"){
       await api.post("/transactions/withdraw",{
-        amount:amount,
+        accountId:selectedAccount.accountID,
+        withdraw:numAmount,
         currency:currency
       })
 
     }
   } catch (error) {
-    console.log(`error during deposit respponse:${error}`)
+    console.log(`error during response:${error} data:${selectedAccount.accountID},${amount},${currency}`)
   }
+  close()
 }
 
   useEffect(()=>{
@@ -165,8 +152,8 @@ const  handleResponse = async () => {
         onSelectCard={(value) => {
           setCardContent(value);   
         }}
-        onSelectAccountId={(id) =>
-          setSelectedAccount((prev) => ({ ...prev, id }))
+        onSelectAccountId={(accountID) =>
+          setSelectedAccount((prev) => ({ ...prev, accountID}))
         }
         onSelectCurrency={(value) => {
           setCurrencySwitchModal(value);   
@@ -174,6 +161,8 @@ const  handleResponse = async () => {
         setAccounts={()=>setAccounts(accounts)}
         setLoading={()=>setLoading(true)}
       />
+
+
       <PayeeModal
         open={transAccModal}
         amount={amountPayee}

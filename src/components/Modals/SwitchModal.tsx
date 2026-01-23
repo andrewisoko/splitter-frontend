@@ -2,7 +2,7 @@ import { useState,useEffect } from "react";
 import api from "../../services/api";
 
 interface AccountProps {
-    id:number,
+    accountID:number,
     balance:string,
     currency:string,
 }
@@ -36,8 +36,6 @@ export default function SwitchModal(
 }:OpCls){
     const [cardDetails,setCardDetails]= useState(false);
     const [selectcard,setSelectCard] = useState<string|null>(null);
-    // const [accounts,setAccounts] = useState<AccountProps[]>([]);
-    // const [loading, setLoading] = useState(true);
     const [selectCurrency,setSelectCurrency] = useState<string|null>(null);
     
 /*---------------------------------------handlers---------------------------------------------------------*/
@@ -52,8 +50,8 @@ export default function SwitchModal(
         setSelectCurrency(content);
         onSelectCurrency(content);
         onSelectAccountId(id); 
-        onSelectBalance(balance)
-
+        onSelectBalance(balance);
+        console.log(id)
         close()
     }
 
@@ -64,21 +62,7 @@ export default function SwitchModal(
         }
     },[open])
 
-    // useEffect(()=>{
-    //     const fetchAccounts = async () => {
-    //         try {
-    //             setLoading(true)
-    //             const response = await api.get("/accounts/find-all-accounts")
-    //             setAccounts(response.data)
-    //         } catch (error) {
-    //             console.log(`error:${error}`)
-    //         }finally{
-    //             setLoading(false)
-    //         }
-    //     };
-    //     fetchAccounts()
-    // },[])
-
+    
     if (!open) return null;
 
     return(
@@ -242,7 +226,7 @@ export default function SwitchModal(
                                     accounts.map((account:AccountProps, index: number) => (
                                          <div 
                                             key={index}
-                                            onClick={()=>handleSelectAccount(account.id,account.currency,account.balance)}
+                                            onClick={()=>handleSelectAccount(account.accountID,account.currency,account.balance)}
                                             className={`bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer${
                                                 selectCurrency === account.currency && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
                                             }`}>
