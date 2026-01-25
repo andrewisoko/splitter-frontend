@@ -14,6 +14,10 @@ type TranOptModalProps = {
  
 };
 
+interface FullNameProps {
+  fullName:string
+}
+
 interface AccountProps {
     accountID:number,
     balance:string,
@@ -34,17 +38,19 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
  /*------------------------------UseState--------------------------------------------- */
 
   const [amount, setAmount] = useState<string>("");
+  const [userName,setUsername] = useState<string>("")
   const [balanceAccountA, setbalanceAccountA] = useState<string>("0.00");
+  const [accountNumber, setaccountNumber] = useState<string>("");
   const [accounts,setAccounts] = useState<AccountProps[]>([]);
   const [loading, setLoading] = useState(true);
-  const [amountPayee, setAmountPayee] = useState<string>("0.00");
   const [switchModal, setSwitchModal] = useState<"cards" | "accounts" | null>(null);
-  const [transAccModal,setTransAccModal] = useState(false)
+  const [payeeModal,setPayeeModal] = useState(false)
   const [step, setSteps] = useState<"amount" | "cards" | "review">("amount");
   const [currency, setCurrency] = useState<string>("GBP");
   const [currencySwitchModal, setCurrencySwitchModal] = useState<string>("USD");
   const [currencyPayee, setCurrencyPayee] = useState<string>("GBP");
   const [cardContent, setCardContent] = useState("Main card •••• 1234");
+  const [fullname, setFullname] = useState<string>("");
   const [selectedAccount, setSelectedAccount] = useState<AccountProps>({
     accountID:0,
     balance:"",
@@ -58,6 +64,12 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
     type: "Visa",
     color: "bg-red-500",
   });
+  const [payeeAccount, setPayeeAccount] = useState<AccountProps>({
+    accountID:0,
+    balance:"",
+    currency:"",
+    color: "bg-blue-500"
+  })
 
 
   useEffect(() => {
@@ -81,9 +93,10 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
     }
   };
 
+
 /*-------------------------------------api------------------------------------------------- */
 
-const  handleResponse = async () => {
+const  handleTransactions = async () => {
   try {
     const numAmount = Number(amount)
     if (title === "Deposit"){
@@ -93,7 +106,7 @@ const  handleResponse = async () => {
         deposit:numAmount,
         currency:currency
       })
-      console.log(`Deposit succesfull ${selectedAccount.accountID},${numAmount},${currency}`)
+      // console.log(`Deposit succesfull ${selectedAccount.accountID},${numAmount},${currency}`)
     }
     else if (title === "Withdraw"){
       await api.post("/transactions/withdraw",{
@@ -124,6 +137,33 @@ const  handleResponse = async () => {
       fetchAccounts()
   },[])
 
+  const handlePayeeAccount = async () => {
+    try {
+      setLoading(true)
+      const numAccNumber = Number(accountNumber)
+
+      const response = await api.post("/accounts/retrieve-account",{
+        userName:userName,
+        accountNumber:numAccNumber,
+      })
+      console.log(`succesfull attempt ${response.data}`)
+
+      const accountData = response.data.account
+      const fullNameData = response.data.fullName
+
+      setPayeeAccount(accountData)
+      setFullname(fullNameData)
+
+    } catch (error) {
+      console.log(`error:${error}, data: ${userName},${accountNumber}`)
+    }
+    finally{
+      setLoading(false)
+    }
+    setPayeeModal(false)
+  }
+
+  
 /*------------------------------other functions--------------------------------------------- */
 
 
@@ -164,13 +204,20 @@ const  handleResponse = async () => {
 
 
       <PayeeModal
-        open={transAccModal}
-        amount={amountPayee}
-        close={()=>setTransAccModal(false)}
-        onSelectCurrency={(value) => {
-          setCurrencyPayee(value);   
-        }}
-      />
+            open={payeeModal}
+            loading={loading}
+            account={payeeAccount}              
+            userName={userName} 
+            fullName={fullname}                  
+            accountNumber={accountNumber}         
+            onSelectCurrency={(value) => setCurrencyPayee(value)}
+            onSelectUsername={(value) => setUsername(value)}     
+            onSelectAccountNumber={(value) => setaccountNumber(value)}
+            setLoading={() => setLoading(true)}
+            onConfirm={handlePayeeAccount}        
+            close={() => setPayeeModal(false)}
+        />
+
 
       <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
         <div className="h-[550px] w-full max-w-md rounded-2xl bg-white p-6 shadow-lg flex flex-col">
@@ -250,11 +297,14 @@ const  handleResponse = async () => {
               cardContent={cardContent}
               currencyContent={currencySwitchModal}
               currencyAmount={balanceAccountA}
-              amountPayee={amountPayee}
+              fullName={fullname}
+              payeeAccount={payeeAccount}  
               currencyPayee={currencyPayee}
+              onSelectCurrency={(value) => setCurrencyPayee(value)}
+              onSelectUsername={(value) => setUsername(value)}  
               onSwitchCards={() => setSwitchModal("cards")}
               onSwitchAccounts={() => setSwitchModal("accounts")}
-              onSwitchTransAcc={ () => setTransAccModal(true)}
+              onSwitchTransAcc={ () => setPayeeModal(true)}
               goNext={()=> setSteps("review")}
               />
             )}
@@ -270,7 +320,7 @@ const  handleResponse = async () => {
                   selectedAccount={selectedAccount}
                   CardOrAcc={selectedCard}
                   action={action}
-                  onConfirm={handleResponse}
+                  onConfirm={handleTransactions}
                 />
               </div>
             )}

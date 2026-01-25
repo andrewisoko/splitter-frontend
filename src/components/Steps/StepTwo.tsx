@@ -2,7 +2,14 @@
 import AccountSwitch from "../SwitchComponents/AccountSwitch";
 import CardSwitch from "../SwitchComponents/CardSwitch";
 import TransferAccSwitch from "../SwitchComponents/TransferAccSwitch";
+import { useState } from "react";
 
+
+interface AccountProps {
+    accountID:number,
+    balance:string,
+    currency:string,
+}
 
 
 type StepTwoProps = {
@@ -11,11 +18,14 @@ type StepTwoProps = {
   cardContent: string; 
   currencyContent:string;
   currencyAmount:string;
-  amountPayee:string;
+  fullName:string;
   currencyPayee:string;
+  payeeAccount: AccountProps;     
   onSwitchCards: ()=>void;
   onSwitchAccounts: ()=>void;
   onSwitchTransAcc:()=> void;
+  onSelectCurrency: (content:string) => void;
+  onSelectUsername: (username: string) => void;
   goNext:()=>void;
 }
 
@@ -24,13 +34,15 @@ export default function StepTwo({
   cardContent,
   currencyContent,
   currencyAmount,
-  amountPayee,
+  fullName,
   currencyPayee,
+  payeeAccount, 
   onSwitchCards,
   onSwitchAccounts,
   onSwitchTransAcc,
   goNext,
 }:StepTwoProps){
+
     return(
       <>
         <div className="h-full flex flex-col">
@@ -54,6 +66,7 @@ export default function StepTwo({
                     onSwitchAccounts={()=>onSwitchAccounts()}
                     currencyAmount={currencyAmount}
                     currencyContent={currencyContent}
+                    
                   />
                 <CardSwitch
                   onSwitchCards={()=>onSwitchCards()}
@@ -69,7 +82,8 @@ export default function StepTwo({
                   currencyContent={currencyContent}
                 />
               <TransferAccSwitch
-                amountPayee={amountPayee}
+                fullName={fullName}
+                account={payeeAccount}  
                 currencyPayee={currencyPayee}
                 onSwitchAccounts={()=>onSwitchTransAcc()}
                 />
