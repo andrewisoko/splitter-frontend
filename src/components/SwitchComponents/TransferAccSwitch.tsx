@@ -31,19 +31,18 @@ export default function TransferAccSwitch({
                 add
                 </button>
                 </div>
-                {account?(
+                {fullName.length < 1?(
+                    <div className="bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-12"></div>
+                    
+                ):(
                     <div      
                         className="bg-gray-200 flex items-center justify-between px-4 py-4 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer">
                         <p className="mt-3 font-semibold text-lg flex-shrink-0">{fullName}</p>
                         <div className="flex items-center gap-2 flex-shrink-0">
-                            <div className="h-10 w-10  rounded-full bg-blue-500 flex-shrink-0"></div>
+                            <div className="h-10 w-10  rounded-full bg-red-500 flex-shrink-0"></div>
                             <p className="mt-3 font-semibold text-sm whitespace-nowrap">{account.currency}</p>
                         </div>
                     </div>
-                    
-                ):(
-                    <div className="bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-12">
-                </div>
                 )}
         </>
     )

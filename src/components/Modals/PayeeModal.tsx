@@ -1,11 +1,14 @@
 import { useState,useEffect } from "react"
 import api from "../../services/api"
+import { AxiosResponse } from "axios";
 
 
 interface AccountProps {
+    accountID:number
     balance:string,
     currency:string,
 }
+
 
 type Operations = {
     open: boolean;
@@ -14,9 +17,12 @@ type Operations = {
     userName:string;
     fullName:string;
     accountNumber:string;
-    onSelectCurrency: (content:string) => void;
+    historyPayees:AxiosResponse[]
+    onSelectCurrency: (currency:string) => void;
+    onSelectFullName: (fullName:string) => void;
     onSelectUsername: (username: string) => void;
     onSelectAccountNumber: (accountNumber: string) => void;
+    onSelectAccountId:(id:string)=>void
     setLoading:() => void;
     onConfirm:()=>void
     close: () => void;
@@ -30,15 +36,17 @@ export default function PayeeModal({
     userName,
     fullName,
     accountNumber,
-    // onSelectCurrency,
+    historyPayees,
     onSelectUsername,
     onSelectAccountNumber,
+    onSelectCurrency,
+    onSelectAccountId,
+    onSelectFullName,
     onConfirm,
     setLoading,
     close}
     :Operations){
 
-    const [selectCurrency,setSelectCurrency] = useState<string|null>(null);
     const [accountDetails,setAccountDetails] = useState(false);
     
     useEffect(()=>{
@@ -50,9 +58,10 @@ export default function PayeeModal({
         
     },[open])
 
-    const handleSelectAccount = (currency:string) => {
-
-        setSelectCurrency(currency);
+    const handleSelectAccount = (id:string,currency:string,fullName:string) => {
+        onSelectAccountId(id)
+        onSelectCurrency(currency)
+        onSelectFullName(fullName)
         close();
     }
 
@@ -160,21 +169,25 @@ export default function PayeeModal({
                         <div>Loading accounts...</div>
                      ):(
                         <>
-                            {account?(
-                            <div 
-                                onClick={()=>handleSelectAccount(account.currency)}
-                                className={`bg-gray-200 flex items-center justify-between px-4 py-4 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer${
-                                    selectCurrency === account.currency && "bg-blue-500/20 border-2 border-blue-400 ring-2 ring-blue-400/50"
-                                }`}>
-                                <p className="mt-3 font-semibold text-lg flex-shrink-0">{fullName}</p>
-                                <div className="flex items-center gap-2 flex-shrink-0">
-                                    <div className="h-10 w-10 rounded-full bg-blue-500 flex-shrink-0"></div>
-                                    <p className="mt-3 font-semibold text-sm whitespace-nowrap">{account.currency}</p>
-                                </div>
-                            </div>
+                            {historyPayees.length < 1?(
+                                <div className="text-white">Add the first payee account</div>
                             ):(
-                                <div className="bg-gray-200 flex items-center flex-row gap-2 w-full h-[80px] rounded-2xl shadow-lg mb-12">
-                                </div>
+                                historyPayees.map((response:any, index:number)=>(
+                                    <div 
+                                        key={index}
+                                        onClick={()=>handleSelectAccount(
+                                            response.data.account.accountID,
+                                            response.data.account.currency,
+                                            response.data.fullName
+                                        )}
+                                        className="bg-gray-200 flex items-center justify-between px-4 py-4 w-full h-[80px] rounded-2xl shadow-lg mb-8 hover:cursor-pointer">
+                                        <p className="mt-3 font-semibold text-lg flex-shrink-0">{response.data.fullName}</p>
+                                        <div className="flex items-center gap-2 flex-shrink-0">
+                                            <div className="h-10 w-10 rounded-full bg-red-500 flex-shrink-0"></div>
+                                            <p className="mt-3 font-semibold text-sm whitespace-nowrap">{response.data.account.currency}</p>
+                                        </div>
+                                    </div>
+                                ))
                             )}
                          </>
 

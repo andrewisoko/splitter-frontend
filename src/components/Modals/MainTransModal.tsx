@@ -5,6 +5,7 @@ import ReviewStep from "../Steps/ReviewStep";
 import StepTwo from "../Steps/StepTwo";
 import PayeeModal from "./PayeeModal";
 import api from "../../services/api";
+import { AxiosResponse } from "axios";
 
 
 type TranOptModalProps = {
@@ -48,9 +49,10 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
   const [step, setSteps] = useState<"amount" | "cards" | "review">("amount");
   const [currency, setCurrency] = useState<string>("GBP");
   const [currencySwitchModal, setCurrencySwitchModal] = useState<string>("USD");
-  const [currencyPayee, setCurrencyPayee] = useState<string>("GBP");
+  const [currencyPayee, setCurrencyPayee] = useState<string>("GBP"); /*this is mainlt to prove the data as been fetch succesfully*/
   const [cardContent, setCardContent] = useState("Main card •••• 1234");
   const [fullname, setFullname] = useState<string>("");
+  const [historyPayees,setHistoryPayees] = useState<AxiosResponse[]>([])
   const [selectedAccount, setSelectedAccount] = useState<AccountProps>({
     accountID:0,
     balance:"",
@@ -98,7 +100,7 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
 
 const  handleTransactions = async () => {
   try {
-    const numAmount = Number(amount)
+    const numAmount = Number(formatAmount(amount))
     if (title === "Deposit"){
 
       await api.post("/transactions/deposit",{
@@ -114,10 +116,18 @@ const  handleTransactions = async () => {
         withdraw:numAmount,
         currency:currency
       })
-
+    }
+    else if ((title === "Transfer")){
+      await api.post("/transactions/transfer",{
+        accountAId:selectedAccount.accountID,
+        accountBId:payeeAccount.accountID,
+        amount:numAmount,
+        currency:currency
+      })
+      console.log(`Transfer succesfull ${selectedAccount.accountID},${payeeAccount.accountID},${numAmount},${currency}`)
     }
   } catch (error) {
-    console.log(`error during response:${error} data:${selectedAccount.accountID},${amount},${currency}`)
+    console.log(`error during response:${error} data:${selectedAccount.accountID},${payeeAccount.accountID},${amount},${currency}`)
   }
   close()
 }
@@ -146,13 +156,16 @@ const  handleTransactions = async () => {
         userName:userName,
         accountNumber:numAccNumber,
       })
-      console.log(`succesfull attempt ${response.data}`)
+      // console.log(`succesfull attempt ${response.data}`)
 
       const accountData = response.data.account
       const fullNameData = response.data.fullName
 
+      pushPayeeAccount(response)
       setPayeeAccount(accountData)
       setFullname(fullNameData)
+
+      // console.log(`History payees: ${historyPayees.length}`)
 
     } catch (error) {
       console.log(`error:${error}, data: ${userName},${accountNumber}`)
@@ -175,6 +188,21 @@ const  handleTransactions = async () => {
       maximumFractionDigits: 2,
     });
   };
+
+  const pushPayeeAccount = (responseData: AxiosResponse) => {
+      setHistoryPayees(prev => {
+        const alreadyExists = prev.some(p => p.data.account.accountID === responseData.data.account.accountID);
+        
+        if (alreadyExists) {
+          console.log(`already contains accountID ${responseData.data.account.accountID}`);
+          return prev; 
+        }
+
+        const updated = [...prev, responseData]; 
+        console.log(`added accountID ${responseData.data.account.accountID}`, updated);
+        return updated; 
+      });
+    };
 
 
   if (!open) return null;
@@ -208,9 +236,12 @@ const  handleTransactions = async () => {
             loading={loading}
             account={payeeAccount}              
             userName={userName} 
-            fullName={fullname}                  
-            accountNumber={accountNumber}         
+            fullName={fullname} 
+            historyPayees={historyPayees}                 
+            accountNumber={accountNumber} 
+            onSelectAccountId={(AccountID)=>setSelectedAccount((prev) => ({ ...prev, AccountID}))}     
             onSelectCurrency={(value) => setCurrencyPayee(value)}
+            onSelectFullName={(value) => setFullname(value)}
             onSelectUsername={(value) => setUsername(value)}     
             onSelectAccountNumber={(value) => setaccountNumber(value)}
             setLoading={() => setLoading(true)}

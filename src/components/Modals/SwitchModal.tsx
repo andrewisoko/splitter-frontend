@@ -51,7 +51,6 @@ export default function SwitchModal(
         onSelectCurrency(content);
         onSelectAccountId(id); 
         onSelectBalance(balance);
-        console.log(id)
         close()
     }
 

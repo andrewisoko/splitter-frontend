@@ -61,7 +61,7 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
           <p className="mt-1 text-sm text-slate-500">
             Already have an account?
             <a
-              href="/login"
+              href="/"
               className="ml-1 font-medium text-indigo-600 hover:text-indigo-500"
             >
               Log in
