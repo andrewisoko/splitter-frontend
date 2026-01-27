@@ -7,6 +7,7 @@ import UsernameAvatar from "../components/UsernameAvatar";
 import TransactionOptionsBtn from "../components/Buttons/TransactionOptionsBtn";
 import { useAuth } from "../components/contexts/AuthContext";
 import { Navigate } from "react-router-dom";
+import { useState } from "react";
 
 interface User {
   token: string;
@@ -21,6 +22,9 @@ type UseAuthTypes = {
 
 
 const HomePage = () => {
+
+  const [balance,setBalance] = useState("0.00");
+  const [currency,setCurrency]=useState("GBP")
 
   const {user, loading}:UseAuthTypes = useAuth();
 
@@ -37,13 +41,16 @@ const HomePage = () => {
   
         <div className="mt-10 ml-3">
         <p>total balance:</p>
-        <p className="font-bold text-[24px] lg:text-[36px]">0.00 GBP</p> 
+        <p className="font-bold text-[24px] lg:text-[36px]">{balance} {currency}</p> 
         <TransactionOptionsBtn/>
     
           {/*accounts*/}
           <div className="mt-4 flex flex-row gap-4">
           <CreateAccountCard/>
-           <AccountCard/>
+           <AccountCard
+           onSelectBalance={(value:string)=>setBalance(value)}
+           onSelectcurrency={(value:string)=>setCurrency(value)}
+           />
           </div>
         </div>
       </div>

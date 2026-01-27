@@ -1,13 +1,30 @@
 import React from "react";
+import api from "../../services/api";
+import { useState,useEffect } from "react";
+import { useAuthUser } from "../contexts/useAuthUser";
+
+
+interface User {
+
+  fullName:string,
+  userName:string;
+  number: number;
+  email:string;
+}
 
 type Operations = {
+  fullName:string,
+  userName:string;
+  number: number;
+  email:string;
+  open: boolean;
+  close: () => void;
 
-    open: boolean;
-    close: () => void;
 }
 
 
-export default function UsernameDetailsModal({ open, close }:Operations) {
+export default function UsernameDetailsModal({ open,fullName,userName,number,email, close}:Operations) {
+
   if (!open) return null;
 
   return (
@@ -72,7 +89,7 @@ export default function UsernameDetailsModal({ open, close }:Operations) {
               </button>
 
               <p className="mt-1 text-xl font-semibold text-slate-900">
-                @Username
+                {userName}
               </p>
             </section>
 
@@ -85,7 +102,7 @@ export default function UsernameDetailsModal({ open, close }:Operations) {
                 type="button"
                 className="mt-2 w-full rounded-3xl bg-white px-4 py-4 text-left shadow-sm flex items-center justify-between"
               >
-                <span className="text-base text-slate-900">Name User</span>
+                <span className="text-base text-slate-900">{fullName}</span>
                 <svg
                   viewBox="0 0 24 24"
                   className="h-5 w-5 text-slate-400"
@@ -114,7 +131,7 @@ export default function UsernameDetailsModal({ open, close }:Operations) {
                 type="button"
                 className="mt-2 w-full rounded-3xl bg-white px-4 py-4 text-left shadow-sm flex items-center justify-between"
               >
-                <span className="text-base text-slate-900">@Username</span>
+                <span className="text-base text-slate-900">{userName}</span>
                 <svg
                   viewBox="0 0 24 24"
                   className="h-5 w-5 text-slate-400"
@@ -137,7 +154,7 @@ export default function UsernameDetailsModal({ open, close }:Operations) {
                 className="mt-2 w-full rounded-3xl bg-white px-4 py-4 text-left shadow-sm flex items-center justify-between"
               >
                 <span className="text-base text-slate-900">
-                  emailUser@email.com
+                  {email}
                 </span>
                 <svg
                   viewBox="0 0 24 24"
@@ -160,7 +177,7 @@ export default function UsernameDetailsModal({ open, close }:Operations) {
                 type="button"
                 className="mt-2 w-full rounded-3xl bg-white px-4 py-4 text-left shadow-sm flex items-center justify-between"
               >
-                <span className="text-base text-slate-900">+01 12345567</span>
+                <span className="text-base text-slate-900">{number}</span>
                 <svg
                   viewBox="0 0 24 24"
                   className="h-5 w-5 text-slate-400"

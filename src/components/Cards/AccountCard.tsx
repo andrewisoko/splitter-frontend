@@ -6,7 +6,15 @@ interface AccountProps {
   balance:string;
   currency:string;
 }
-const AccountCard = () => {
+
+type AccountCardProps = {
+  onSelectcurrency:(currency:string)=>void
+  onSelectBalance:(balance:string)=>void
+}
+const AccountCard = ({
+  onSelectcurrency,
+  onSelectBalance,
+}:AccountCardProps) => {
 
   const [accounts,setAccounts] = useState<AccountProps[]>([])
   const [loading, setLoading] = useState(true);
@@ -29,6 +37,12 @@ const AccountCard = () => {
   fetchAccounts();
 }, []);
 
+const selectAccount = (currency:string,balance:string) => {
+  onSelectcurrency(currency)
+  onSelectBalance(balance)
+}
+
+
 const currencyFlags: Record<string, string> = {
   USD: '🇺🇸', EUR: '🇪🇺', GBP: '🇬🇧', JPY: '🇯🇵',
   CAD: '🇨🇦', AUD: '🇦🇺', CHF: '🇨🇭', CNY: '🇨🇳',
@@ -43,6 +57,10 @@ const currencyFlags: Record<string, string> = {
         accounts.map((account: AccountProps, index: number) => (
           <div 
             key={index} 
+            onClick={()=>selectAccount(
+              account.currency,
+              parseFloat(account.balance).toFixed(2))
+            }
             className="h-[200px] w-1/2 md:w-[230px] bg-gray-200 rounded-2xl shadow-sm flex flex-col justify-between px-4 py-4"
           >
           <p className="font-semibold text-[24px] self-center text-gray-800">
