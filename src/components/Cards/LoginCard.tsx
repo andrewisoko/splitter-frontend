@@ -40,6 +40,7 @@ const LoginCard = () => {
       });
 
       login(response.data.access_token); 
+      console.log(`access token: ${response.data.access_token}`)
       navigate('/home');
 
     } catch (error) {
