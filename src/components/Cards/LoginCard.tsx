@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import api from "../../services/api";
 import { useNavigate } from 'react-router-dom';
@@ -33,14 +33,16 @@ const LoginCard = () => {
     }
 
     try {
-
       const response = await api.post("auth/login",{
       email:loginValues.email,
       password:loginValues.password
       });
 
+      localStorage.setItem("access_token", response.data.access_token);
+      localStorage.setItem("refresh_token", response.data.refresh_token);
+    
       login(response.data.access_token); 
-      console.log(`access token: ${response.data.access_token}`)
+      console.log(`access token: ${response.data.access_token || response.data.refesh_token}`)
       navigate('/home');
 
     } catch (error) {
