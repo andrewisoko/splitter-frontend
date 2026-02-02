@@ -98,7 +98,7 @@ export default function MainOpModal({ open, close, action}: TranOptModalProps) {
 
 /*-------------------------------------api------------------------------------------------- */
 
-const  handleTransactions = async () => {
+const  onConfirmTransactions = async () => {
   try {
     const numAmount = Number(formatAmount(amount))
     if (title === "Deposit"){
@@ -351,7 +351,7 @@ const  handleTransactions = async () => {
                   selectedAccount={selectedAccount}
                   CardOrAcc={selectedCard}
                   action={action}
-                  onConfirm={handleTransactions}
+                  onConfirm={onConfirmTransactions}
                 />
               </div>
             )}
